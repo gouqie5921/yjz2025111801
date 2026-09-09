@@ -1,0 +1,54 @@
+{
+    // VSCode 任务（日常流程）：
+    //   1) Build (ninja Debug)       - 编译最新代码 -> build/Debug/test2.elf
+    //   2) Flash (OpenOCD)           - 只烧录当前 elf（不编译）
+    //   3) Build & Flash             - 先编译再烧录（Ctrl+Shift+B 默认走这个）
+    // 用法: Ctrl+Shift+B 直接“编译+烧录”；或 Ctrl+Shift+P -> Tasks: Run Task 选单个。
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build (ninja Debug)",
+            "type": "shell",
+            "command": "C:\\Users\\31589\\AppData\\Local\\stm32cube\\bundles\\ninja\\1.13.2+st.1\\bin\\ninja.exe",
+            "args": ["-C", "${workspaceFolder}/build/Debug"],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "problemMatcher": ["$gcc"],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            }
+        },
+        {
+            "label": "Flash (OpenOCD)",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-ExecutionPolicy", "Bypass",
+                "-File", "${workspaceFolder}/flash/flash.ps1",
+                "-OpenOcd", "D:\\123\\xpack-openocd-0.12.0-7\\bin\\openocd.exe"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            }
+        },
+        {
+            "label": "Build & Flash",
+            "dependsOn": ["Build (ninja Debug)", "Flash (OpenOCD)"],
+            "dependsOrder": "sequence",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": []
+        }
+    ]
+}
