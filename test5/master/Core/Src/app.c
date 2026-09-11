@@ -383,15 +383,18 @@ static void led_task(void *argument)
 
         if (st.imu_ok == 0u)
         {
-            on = (uint8_t)(n % 2u);                     /* 100ms 快闪：IMU 异常 */
+            /* IMU 异常用"双闪两下 + 长停"（周期 400ms），
+               和陀螺仪模式的单次快闪（100ms）明确区分开 */
+            uint8_t p = (uint8_t)(n % 8u);
+            on = (uint8_t)((p == 0u) || (p == 2u));
         }
         else if (st.mode == PROTO_MODE_POT)
         {
-            on = (uint8_t)((n / 10u) % 2u);             /* 500ms 慢闪：电位器模式 */
+            on = (uint8_t)((n % 20u) < 10u);            /* 亮 500ms 灭 500ms：电位器模式 */
         }
         else
         {
-            on = (uint8_t)((n / 2u) % 2u);              /* 100ms 快闪：陀螺仪模式 */
+            on = (uint8_t)((n % 4u) < 2u);              /* 亮 100ms 灭 100ms：陀螺仪模式 */
         }
 
         /* 蓝丸板载 LED 接 PC13，低电平点亮 */
