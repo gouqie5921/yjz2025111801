@@ -51,6 +51,7 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     Core/Src/knob.c
     Core/Src/protocol.c
     Core/Src/dbg.c
+    Core/Src/hwprobe.c
 )
 
 # Add include paths

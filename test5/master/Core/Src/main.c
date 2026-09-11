@@ -27,6 +27,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "app.h"
+#include "hwprobe.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -97,6 +98,9 @@ int main(void)
   MX_USART2_UART_Init();
   MX_I2C1_Init();
   /* USER CODE BEGIN 2 */
+  /* 硬件自检：只在 APP_HW_PROBE=1 的版本里有实际动作，正常固件里是空语句 */
+  hwprobe_run();
+
   /* 启动两个 ADC 的连续转换（电位器采样），此时还没进 RTOS 调度 */
   app_start_periph();
   /* USER CODE END 2 */

@@ -11,14 +11,20 @@
 #
 #  NOTE: keep this file pure ASCII (PS 5.1 reads .ps1 as ANSI/GBK without BOM).
 # ============================================================================
-param()
+param(
+  # Extra -D... defines, e.g. -ExtraDefines @("-DAPP_HW_PROBE=1")
+  [string[]]$ExtraDefines = @(),
+  # Output name suffix, e.g. -Suffix "_probe" -> master_probe.elf
+  [string]$Suffix = ""
+)
 
 $ErrorActionPreference = "Stop"
 $root  = Split-Path $PSScriptRoot -Parent
+$proj  = Split-Path $root -Leaf
 $gcc   = "C:\Users\31589\AppData\Local\stm32cube\bundles\gnu-tools-for-stm32\14.3.1+st.2\bin\arm-none-eabi-gcc.exe"
 $objc  = "C:\Users\31589\AppData\Local\stm32cube\bundles\gnu-tools-for-stm32\14.3.1+st.2\bin\arm-none-eabi-objcopy.exe"
 $outdir = Join-Path $root "build\cli"
-$out    = Join-Path $outdir "master.elf"
+$out    = Join-Path $outdir ($proj + $Suffix + ".elf")
 if (-not (Test-Path $outdir)) { New-Item -ItemType Directory -Path $outdir | Out-Null }
 
 $inc = @(
@@ -42,7 +48,7 @@ $halNames = @("stm32f1xx_hal_gpio_ex","stm32f1xx_hal_tim","stm32f1xx_hal_tim_ex"
               "stm32f1xx_hal_flash","stm32f1xx_hal_flash_ex","stm32f1xx_hal_exti",
               "stm32f1xx_hal_uart","stm32f1xx_hal_i2c")
 $osNames  = @("croutine","event_groups","list","queue","stream_buffer","tasks","timers")
-$myNames  = @("app","attitude","mpu6050","knob","protocol","dbg")
+$myNames  = @("app","attitude","mpu6050","knob","protocol","dbg","hwprobe")
 
 $srcs = @()
 $srcs += ($appNames  | ForEach-Object { Join-Path $root ("Core\Src\" + $_ + ".c") })
@@ -64,9 +70,11 @@ $flags = @(
   "-T", (Join-Path $root "STM32F103xx_FLASH.ld"),
   "--specs=nano.specs",
   "-Wl,--gc-sections",
-  ("-Wl,-Map=" + (Join-Path $outdir "master.map")),
+  ("-Wl,-Map=" + (Join-Path $outdir ($proj + $Suffix + ".map"))),
   "-Wl,--print-memory-usage"
 )
+$flags += $ExtraDefines
+if ($ExtraDefines.Count -gt 0) { Write-Host ("Extra defines: " + ($ExtraDefines -join " ")) -ForegroundColor Yellow }
 
 Write-Host ("Compiling+linking " + $srcs.Count + " files ...") -ForegroundColor Cyan
 $sw = [System.Diagnostics.Stopwatch]::StartNew()
@@ -81,5 +89,5 @@ Write-Host ("build exit=" + $rc + "   elapsed=" + [math]::Round($sw.Elapsed.Tota
 if ($rc -ne 0) { exit $rc }
 
 # also emit bin/hex for convenience
-& $objc -O binary $out (Join-Path $outdir "master.bin")
+& $objc -O binary $out (Join-Path $outdir ($proj + $Suffix + ".bin"))
 Write-Host ("OK -> " + $out) -ForegroundColor Green
