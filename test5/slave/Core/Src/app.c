@@ -196,18 +196,28 @@ static void parse_task(void *argument)
     }
 }
 
-/* ---------------- ServoTask：取最新目标角 + 限速驱动 ---------------- */
+/* ---------------- ServoTask：取最新目标角 + 限速驱动 ----------------
+   APP_SELF_TEST=1 时不做协议解析，改为分三段小幅慢摆，用于分离
+   "程序/PWM/接线" 与 "机械装配/舵机本体" 的问题。 */
 static void servo_task(void *argument)
 {
     uint32_t wake  = osKernelGetTickCount();
     uint32_t last  = wake;
+#if (APP_SELF_TEST == 1u)
+    static const float   seq[4]  = { APP_SELFTEST_LO, SERVO_ANGLE_CENTER,
+                                     APP_SELFTEST_HI, SERVO_ANGLE_CENTER };
+    static const uint8_t mask[3] = { 0x1u, 0x2u, 0x3u };  /* 只水平 / 只俯仰 / 两路一起 */
+    uint32_t dwell = 0u;
+    uint8_t  ph    = 0u;
+    uint8_t  si    = 0u;
+    dbg_str("SELFTEST phase 0 (only PAN PA6)\r\n");
+#endif
     (void)argument;
 
     for (;;)
     {
-        proto_cmd_t cmd;
-        uint32_t    now = osKernelGetTickCount();
-        float       dt  = (float)(now - last) * 0.001f;
+        uint32_t now = osKernelGetTickCount();
+        float    dt  = (float)(now - last) * 0.001f;
 
         last = now;
         if ((dt <= 0.0f) || (dt > 0.5f))
@@ -215,12 +225,44 @@ static void servo_task(void *argument)
             dt = (float)APP_SERVO_PERIOD_MS * 0.001f;
         }
 
-        /* 把队列里积压的帧全部取出来，只留最后一帧（最新的角度） */
-        while (osMessageQueueGet(s_cmd_q, &cmd, NULL, 0u) == osOK)
+#if (APP_SELF_TEST == 1u)
+        dwell += APP_SERVO_PERIOD_MS;
+        if (dwell >= APP_SELFTEST_STEP_MS)
         {
-            servo_set_target(SERVO_CH_PAN,  (float)cmd.pan_x10  / 10.0f);
-            servo_set_target(SERVO_CH_TILT, (float)cmd.tilt_x10 / 10.0f);
+            dwell = 0u;
+            si++;
+
+            if (si >= 4u)
+            {
+                si = 0u;
+                ph = (uint8_t)((ph + 1u) % 3u);
+
+                /* 换阶段：两路先回中（限速，不会猛甩），再只动本阶段该动的那一路 */
+                servo_set_target(SERVO_CH_PAN,  SERVO_ANGLE_CENTER);
+                servo_set_target(SERVO_CH_TILT, SERVO_ANGLE_CENTER);
+
+                dbg_str("SELFTEST phase ");
+                dbg_u32(ph);
+                dbg_str((ph == 0u) ? " (only PAN PA6)"
+                                   : ((ph == 1u) ? " (only TILT PA7)" : " (both)"));
+                dbg_nl();
+            }
+
+            if ((mask[ph] & 0x1u) != 0u) { servo_set_target(SERVO_CH_PAN,  seq[si]); }
+            if ((mask[ph] & 0x2u) != 0u) { servo_set_target(SERVO_CH_TILT, seq[si]); }
         }
+#else
+        {
+            proto_cmd_t cmd;
+
+            /* 把队列里积压的帧全部取出来，只留最后一帧（最新的角度） */
+            while (osMessageQueueGet(s_cmd_q, &cmd, NULL, 0u) == osOK)
+            {
+                servo_set_target(SERVO_CH_PAN,  (float)cmd.pan_x10  / 10.0f);
+                servo_set_target(SERVO_CH_TILT, (float)cmd.tilt_x10 / 10.0f);
+            }
+        }
+#endif
 
         /* 按转速限制逼近目标，写 CCR */
         servo_update(dt);

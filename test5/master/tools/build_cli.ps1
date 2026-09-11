@@ -70,7 +70,10 @@ $flags = @(
 
 Write-Host ("Compiling+linking " + $srcs.Count + " files ...") -ForegroundColor Cyan
 $sw = [System.Diagnostics.Stopwatch]::StartNew()
+$eapBackup = $ErrorActionPreference
+$ErrorActionPreference = "Continue"
 $log = & $gcc @flags @inc @srcs -o $out -lm 2>&1
+$ErrorActionPreference = $eapBackup
 $rc = $LASTEXITCODE
 $sw.Stop()
 $log | Where-Object { $_ -match "error|warning:|RAM:|FLASH:" } | Select-Object -First 30

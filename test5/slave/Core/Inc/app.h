@@ -45,6 +45,21 @@ extern "C" {
 /* ---------------- 帧队列深度 ---------------- */
 #define APP_CMD_QUEUE_LEN       4u
 
+/* ---------------- 舵机自检模式 ----------------
+   排线/舵机不动作或一直嗡嗡时用：置 1（或编译时 -DAPP_SELF_TEST=1）后
+   不再解析串口，两路舵机分三段小幅慢摆，用来单独验证"PWM + 接线 + 舵机本体"：
+     阶段 A：只摆水平 PA6(TIM3_CH1)   90->60->90->120->90
+     阶段 B：只摆俯仰 PA7(TIM3_CH2)   同上
+     阶段 C：两路一起摆              同上
+   每步 1.5s，限速 300°/s（不会硬顶限位），LED 每步翻转、串口打印阶段。
+   默认 0 = 正常固件。 */
+#ifndef APP_SELF_TEST
+#define APP_SELF_TEST           0u
+#endif
+#define APP_SELFTEST_STEP_MS    1500u
+#define APP_SELFTEST_LO         60.0f
+#define APP_SELFTEST_HI         120.0f
+
 typedef struct
 {
     uint8_t  link_ok;       /* 1 = 通信正常 */
