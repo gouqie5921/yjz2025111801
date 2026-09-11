@@ -1,0 +1,86 @@
+{
+    // VSCode 任务（第五题 二自由度云台 · 主控端）
+    //
+    //  Build & Flash (推荐)  = 用 arm-none-eabi-gcc 直接编译 -> OpenOCD 烧录
+    //                          走 tools/build_cli.ps1，不依赖 cmake/ninja
+    //  CMake: Configure/Build = 用 CubeMX 生成的 CMake 工程编译（build/Release/master.elf）
+    //  Flash                  = 只烧录当前 elf（兼容克隆 ST-Link / 克隆芯片）
+    //
+    //  注：本项目也可以用 CMake 预设编译，两条路都可以；
+    //      flash.ps1 会自动找 build/cli/master.elf，找不到再退到 build/Release。
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "1. Build (gcc direct)",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-ExecutionPolicy", "Bypass",
+                "-File", "${workspaceFolder}/tools/build_cli.ps1"
+            ],
+            "group": { "kind": "build", "isDefault": false },
+            "problemMatcher": ["$gcc"],
+            "presentation": { "reveal": "always", "panel": "shared" }
+        },
+        {
+            "label": "2. Flash (OpenOCD)",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-ExecutionPolicy", "Bypass",
+                "-File", "${workspaceFolder}/flash/flash.ps1",
+                "-OpenOcd", "D:\\123\\xpack-openocd-0.12.0-7\\bin\\openocd.exe"
+            ],
+            "group": { "kind": "build", "isDefault": false },
+            "problemMatcher": [],
+            "presentation": { "reveal": "always", "panel": "shared" }
+        },
+        {
+            "label": "Build & Flash",
+            "dependsOn": ["1. Build (gcc direct)", "2. Flash (OpenOCD)"],
+            "dependsOrder": "sequence",
+            "group": { "kind": "build", "isDefault": true },
+            "problemMatcher": []
+        },
+        {
+            "label": "CMake: Configure (Release)",
+            "type": "shell",
+            "command": "C:\\Users\\31589\\AppData\\Local\\stm32cube\\bundles\\cmake\\4.3.1+st.1\\bin\\cmake.exe",
+            "args": ["--preset", "Release"],
+            "options": {
+                "env": {
+                    "PATH": "C:\\Users\\31589\\AppData\\Local\\stm32cube\\bundles\\gnu-tools-for-stm32\\14.3.1+st.2\\bin;C:\\Users\\31589\\AppData\\Local\\stm32cube\\bundles\\cmake\\4.3.1+st.1\\bin;C:\\Users\\31589\\AppData\\Local\\stm32cube\\bundles\\ninja\\1.13.2+st.1\\bin;${env:PATH}"
+                }
+            },
+            "group": { "kind": "build", "isDefault": false },
+            "problemMatcher": [],
+            "presentation": { "reveal": "always", "panel": "shared" }
+        },
+        {
+            "label": "CMake: Build (Release)",
+            "type": "shell",
+            "command": "C:\\Users\\31589\\AppData\\Local\\stm32cube\\bundles\\cmake\\4.3.1+st.1\\bin\\cmake.exe",
+            "args": ["--build", "--preset", "Release"],
+            "options": {
+                "env": {
+                    "PATH": "C:\\Users\\31589\\AppData\\Local\\stm32cube\\bundles\\gnu-tools-for-stm32\\14.3.1+st.2\\bin;C:\\Users\\31589\\AppData\\Local\\stm32cube\\bundles\\cmake\\4.3.1+st.1\\bin;C:\\Users\\31589\\AppData\\Local\\stm32cube\\bundles\\ninja\\1.13.2+st.1\\bin;${env:PATH}"
+                }
+            },
+            "group": { "kind": "build", "isDefault": false },
+            "problemMatcher": ["$gcc"],
+            "presentation": { "reveal": "always", "panel": "shared" }
+        },
+        {
+            "label": "Probe (只测 SWD 连接)",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-ExecutionPolicy", "Bypass",
+                "-File", "${workspaceFolder}/flash/probe.ps1",
+                "-OpenOcd", "D:\\123\\xpack-openocd-0.12.0-7\\bin\\openocd.exe"
+            ],
+            "problemMatcher": [],
+            "presentation": { "reveal": "always", "panel": "shared" }
+        }
+    ]
+}
