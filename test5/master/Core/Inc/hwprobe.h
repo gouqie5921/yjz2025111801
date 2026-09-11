@@ -46,6 +46,15 @@ extern uint8_t  g_pot_pulldown[2];
 extern uint8_t  g_i2c_line_pullup[2];
 extern uint8_t  g_i2c_line_pulldown[2];
 
+/* MPU6050 寄存器级探测：确认"能不能读寄存器"以及"WHO_AM_I 到底是几" */
+extern uint8_t  g_whoami_rd_ok;     /* WHO_AM_I 读取是否成功 */
+extern uint8_t  g_whoami_val;       /* 读回的 WHO_AM_I 原始值 */
+extern uint8_t  g_pwr_mgmt1;        /* 上电时 PWR_MGMT_1（0x40 = 还在睡眠） */
+extern uint8_t  g_burst_ok;         /* 14 字节突发读是否成功 */
+extern uint16_t g_accel_x;          /* 突发读回来的加速度 X 原始值 */
+extern uint16_t g_gyro_x;           /* 突发读回来的角速度 X 原始值 */
+extern uint32_t g_i2c_err_rd;       /* 寄存器读失败时 HAL_I2C_GetError() */
+
 void hwprobe_run(void);
 
 #else

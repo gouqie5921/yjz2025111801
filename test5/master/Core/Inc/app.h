@@ -57,6 +57,7 @@ extern "C" {
 /* ---------------- 其他 ---------------- */
 #define APP_KEY_DEBOUNCE_CNT    3u      /* 20ms * 3 = 60ms 消抖 */
 #define APP_IMU_RETRY_MS        1000u   /* IMU 掉线后的重试间隔 */
+#define APP_IMU_FAIL_LOST       5u      /* 连续失败几次（5*10ms）才判定 IMU 掉线 */
 #define APP_DBG_ENABLE          1u      /* 0 = 关掉调试打印 */
 
 typedef struct

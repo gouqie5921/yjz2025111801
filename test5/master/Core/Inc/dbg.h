@@ -21,6 +21,7 @@ void dbg_str(const char *s);
 void dbg_i32(int32_t v);
 void dbg_u32(uint32_t v);
 void dbg_f(float v, uint8_t decimals);      /* 定点小数，如 decimals=1 -> 12.3 */
+void dbg_hex8(uint8_t v);                   /* 0x5A */
 void dbg_nl(void);                          /* 换行 */
 
 #ifdef __cplusplus

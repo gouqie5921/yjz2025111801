@@ -25,6 +25,13 @@ static float s_pitch_zero = 0.0f;
 static uint8_t s_calibrated = 0u;
 static float   s_bias_avg   = 0.0f;
 
+/* ---- 调试统计（SWD 直接 dump）---- */
+uint8_t  g_att_init_ret = 0xFFu;    /* 最近一次 attitude_init() 的返回值 */
+uint16_t g_att_init_cnt = 0u;
+uint16_t g_att_init_ok  = 0u;
+uint16_t g_att_upd_ok   = 0u;
+uint16_t g_att_upd_fail = 0u;
+
 /* 按轴号取分量：0=gx 1=gy 2=gz（同一套取法，保证宏可换） */
 static float pick_gyro(const mpu6050_data_t *d, uint8_t axis)
 {
@@ -45,14 +52,21 @@ att_status_t attitude_init(void)
     uint8_t ret;
     float bx, by, bz;
 
+    /* 把 PB6/PB7 从硬件 I2C 外设接管过来，改用软件位操作时序 */
+    mpu6050_bus_config();
+
+    g_att_init_cnt++;
+
     ret = mpu6050_init();
     if (ret != 0u)
     {
         /* 区分"能读但不能通信"和"ID 不对" */
         if (mpu6050_read_raw(&s_raw) != 0u)
         {
+            g_att_init_ret = (uint8_t)ATT_ERR_I2C;
             return ATT_ERR_I2C;
         }
+        g_att_init_ret = (uint8_t)ATT_ERR_WHOAMI;
         return ATT_ERR_WHOAMI;
     }
 
@@ -76,6 +90,9 @@ att_status_t attitude_init(void)
     s_yaw_zero = 0.0f;
     s_pitch_zero = 0.0f;
 
+    g_att_init_ret = (uint8_t)ATT_OK;
+    g_att_init_ok++;
+
     return ATT_OK;
 }
 
@@ -85,15 +102,18 @@ att_status_t attitude_update(float dt)
 
     if (dt <= 0.0f)
     {
+        g_att_upd_fail++;
         return ATT_ERR_I2C;
     }
 
-    /* 一次 I2C 读取同时拿到原始值和物理量（400kHz 下 14 字节约 0.4ms） */
+    /* 一次 I2C 读取同时拿到原始值和物理量（100kHz 下 14 字节约 1.6ms） */
     if (mpu6050_read_raw(&s_raw) != 0u)
     {
+        g_att_upd_fail++;
         return ATT_ERR_I2C;
     }
     mpu6050_raw_to_data(&s_raw, &s_dat);
+    g_att_upd_ok++;
 
     w_yaw   = ATT_YAW_SIGN   * pick_gyro(&s_dat, ATT_YAW_AXIS);
     w_pitch = ATT_PITCH_SIGN * pick_gyro(&s_dat, ATT_PITCH_AXIS);

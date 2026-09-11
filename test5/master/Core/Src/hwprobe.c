@@ -22,6 +22,16 @@ uint8_t  g_pot_pulldown[2];
 uint8_t  g_i2c_line_pullup[2];
 uint8_t  g_i2c_line_pulldown[2];
 
+uint8_t  g_whoami_rd_ok;
+uint8_t  g_whoami_val;
+uint8_t  g_pwr_mgmt1;
+uint8_t  g_burst_ok;
+uint16_t g_accel_x;
+uint16_t g_gyro_x;
+uint32_t g_i2c_err_rd;
+
+#define MPU_ADDR_W      0xD0u       /* 0x68 << 1 */
+
 /* ---------------- 引脚探针 ---------------- */
 static void probe_pins(void)
 {
@@ -98,10 +108,40 @@ static void probe_i2c(void)
     g_i2c_addr69_ok = (HAL_I2C_IsDeviceReady(&hi2c1, 0x69u << 1, 2u, 5u) == HAL_OK) ? 1u : 0u;
 }
 
+/* ---------------- MPU6050 寄存器级探测 ----------------
+   回答两个问题：① 寄存器到底能不能读（Mem_Read 是否成功）；
+   ② WHO_AM_I 究竟是几（便宜的 GY-521 常用 MPU6500/9250 兼容芯片，
+      其 WHO_AM_I 不是 0x68）。 */
+static void probe_whoami(void)
+{
+    uint8_t v   = 0u;
+    uint8_t p   = 0u;
+    uint8_t buf[14];
+    uint8_t i;
+
+    g_whoami_rd_ok = (HAL_I2C_Mem_Read(&hi2c1, MPU_ADDR_W, 0x75u, I2C_MEMADD_SIZE_8BIT,
+                                       &v, 1u, 100u) == HAL_OK) ? 1u : 0u;
+    g_whoami_val   = v;
+    g_i2c_err_rd   = HAL_I2C_GetError(&hi2c1);
+
+    (void)HAL_I2C_Mem_Read(&hi2c1, MPU_ADDR_W, 0x6Bu, I2C_MEMADD_SIZE_8BIT, &p, 1u, 100u);
+    g_pwr_mgmt1 = p;
+
+    for (i = 0u; i < 14u; i++)
+    {
+        buf[i] = 0u;
+    }
+    g_burst_ok = (HAL_I2C_Mem_Read(&hi2c1, MPU_ADDR_W, 0x3Bu, I2C_MEMADD_SIZE_8BIT,
+                                   buf, 14u, 100u) == HAL_OK) ? 1u : 0u;
+    g_accel_x = (uint16_t)(((uint16_t)buf[0] << 8) | buf[1]);
+    g_gyro_x  = (uint16_t)(((uint16_t)buf[8] << 8) | buf[9]);
+}
+
 void hwprobe_run(void)
 {
     probe_pins();
     probe_i2c();
+    probe_whoami();
 }
 
 #endif /* APP_HW_PROBE */

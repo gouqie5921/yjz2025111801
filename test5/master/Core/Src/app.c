@@ -182,8 +182,9 @@ static void sensor_task(void *argument)
 {
     uint32_t wake   = osKernelGetTickCount();
     uint32_t last   = wake;
-    uint32_t retry  = 0u;
-    uint8_t  imu_ok = 0u;           /* 本任务的私有副本，发布时才加锁写 s_st */
+    uint32_t retry    = 0u;
+    uint8_t  imu_ok   = 0u;         /* 本任务的私有副本，发布时才加锁写 s_st */
+    uint8_t  imu_fail = 0u;         /* 连续读失败计数 */
     (void)argument;
 
     for (;;)
@@ -223,11 +224,20 @@ static void sensor_task(void *argument)
         }
         else if (attitude_update(dt) != ATT_OK)
         {
-            imu_ok = 0u;
-            retry  = APP_IMU_RETRY_MS;
-            lock();
-            s_st.imu_ok = 0u;
-            unlock();
+            /* 偶发一次读失败不算掉线（长线/干扰常见）：
+               连续失败 APP_IMU_FAIL_LOST 次（约 50ms）才认定为 IMU 异常 */
+            if (imu_fail < APP_IMU_FAIL_LOST)
+            {
+                imu_fail++;
+            }
+            if (imu_fail >= APP_IMU_FAIL_LOST)
+            {
+                imu_ok = 0u;
+                retry  = APP_IMU_RETRY_MS;
+                lock();
+                s_st.imu_ok = 0u;
+                unlock();
+            }
         }
         else
         {
@@ -235,6 +245,8 @@ static void sensor_task(void *argument)
             float pitch   = attitude_get_pitch();
             float pan_cmd = APP_GYRO_CENTER + (APP_GYRO_PAN_GAIN * yaw);
             float tlt_cmd = APP_GYRO_CENTER + (APP_GYRO_TILT_GAIN * pitch);
+
+            imu_fail = 0u;
 
             pan_cmd = clampf(pan_cmd, APP_GYRO_CENTER - APP_GYRO_LIMIT,
                                       APP_GYRO_CENTER + APP_GYRO_LIMIT);
@@ -438,6 +450,8 @@ static void dbg_task(void *argument)
         dbg_u32(st.mode);
         dbg_str(" IMU=");
         dbg_u32(st.imu_ok);
+        dbg_str(" ID=");
+        dbg_hex8(mpu6050_get_whoami());
 
         dbg_str(" PAN=");
         dbg_f(st.pan, 1u);

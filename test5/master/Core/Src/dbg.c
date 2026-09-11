@@ -122,6 +122,18 @@ void dbg_f(float v, uint8_t decimals)
     }
 }
 
+void dbg_hex8(uint8_t v)
+{
+    static const char hx[] = "0123456789ABCDEF";
+    char s[4];
+
+    s[0] = '0';
+    s[1] = 'x';
+    s[2] = hx[(v >> 4) & 0x0Fu];
+    s[3] = hx[v & 0x0Fu];
+    put(s, 4u);
+}
+
 void dbg_nl(void)
 {
     put("\r\n", 2u);

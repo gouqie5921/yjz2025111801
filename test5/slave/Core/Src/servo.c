@@ -64,7 +64,8 @@ void servo_set_target(uint8_t ch, float deg)
     {
         return;
     }
-    s_ch[ch].target = clampf(deg, SERVO_ANGLE_MIN, SERVO_ANGLE_MAX);
+    /* 带余量限幅，避免指令顶到机械限位导致堵转嗡响 */
+    s_ch[ch].target = clampf(deg, SERVO_CMD_MIN, SERVO_CMD_MAX);
 }
 
 void servo_jump(uint8_t ch, float deg)

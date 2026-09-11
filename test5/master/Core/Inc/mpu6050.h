@@ -33,8 +33,30 @@ typedef struct
     float gx, gy, gz;       /* 单位 °/s */
 } mpu6050_data_t;
 
-/* 初始化：检查 WHO_AM_I、唤醒、配置 DLPF/量程。返回 0=成功 1=失败（读不到器件） */
+/* I2C 总线参数。
+   面包板 + 长杜邦线时 400kHz 很容易偶发错误（NACK/超时），
+   代码里统一降到 100kHz，并且读失败会自动重试 + 复位总线。 */
+#define MPU6050_I2C_SPEED_HZ    100000u
+#define MPU6050_IO_TIMEOUT_MS   100u    /* 别改小：F1 的 HAL 在超时+ADDR未置位时会误报成 AF，
+                                           便宜的兼容芯片偶发拉长时钟时会踩到这个坑 */
+#define MPU6050_READ_RETRY      3u
+
+/* 设置 I2C 速率（在 MX_I2C1_Init() 之后调用一次即可） */
+void mpu6050_bus_config(void);
+
+/* 复位 I2C 外设并重新初始化（总线偶发卡死时的恢复手段） */
+void mpu6050_bus_recover(void);
+
+/* 初始化：检查 WHO_AM_I、唤醒、配置 DLPF/量程。返回 0=成功 1=失败（读不到器件或 ID 不认识） */
 uint8_t mpu6050_init(void);
+
+/* 最近一次读到的 WHO_AM_I 原始值（调试用：`ID=0x..`） */
+uint8_t mpu6050_get_whoami(void);
+
+/* 判定 WHO_AM_I 是否是"本驱动认识"的器件。
+   市面上的 GY-521 有不少用 MPU6500/MPU9250 等兼容芯片，
+   WHO_AM_I 不等于 0x68，但本驱动用到的寄存器映射是兼容的，所以一并接受。 */
+uint8_t mpu6050_id_known(uint8_t id);
 
 /* 读一次原始 6 轴数据（I2C 突发读 14 字节），返回 0=成功 */
 uint8_t mpu6050_read_raw(mpu6050_raw_t *raw);

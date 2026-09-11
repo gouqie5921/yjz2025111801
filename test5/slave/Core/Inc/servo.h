@@ -25,6 +25,13 @@ extern "C" {
 #define SERVO_ANGLE_MAX     180.0f
 #define SERVO_ANGLE_CENTER  90.0f
 
+/* 指令余量：实际可命令的角度收到 [MARGIN, 180-MARGIN]。
+   原因：指令一旦顶到 0°/180° 的机械限位，舵机会持续堵转 —— 嗡嗡响 + 发热 + 电流大，
+   留 10° 余量既不丢演示效果，也保护舵机。想用满 0~180° 就把 MARGIN 改成 0。 */
+#define SERVO_ANGLE_MARGIN  10.0f
+#define SERVO_CMD_MIN       (SERVO_ANGLE_MIN + SERVO_ANGLE_MARGIN)
+#define SERVO_CMD_MAX       (SERVO_ANGLE_MAX - SERVO_ANGLE_MARGIN)
+
 #define SERVO_PULSE_MIN_US  500u    /* 0°   */
 #define SERVO_PULSE_MAX_US  2500u   /* 180° */
 
