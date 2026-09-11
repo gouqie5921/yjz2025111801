@@ -1,0 +1,63 @@
+{
+    // VSCode 任务（第四题 模拟风扇 · FreeRTOS + PID）
+    //
+    //  1. Configure (Release)  - 配置 CMake（第一次必须先跑，生成 build/Release）
+    //  2. Build (Release)      - 编译 -> build/Release/test4.elf
+    //  3. Flash (OpenOCD)      - 只烧录当前 elf（兼容克隆 ST-Link / 克隆片）
+    //  Build & Flash           - 1 → 2 → 3 顺序执行（Ctrl+Shift+B 默认走这个）
+    //
+    //  注意：本项目 Debug(-O0) 会超 64KB Flash，已在 CMakeLists 里给 Debug 追加 -Os；
+    //        统一用 Release 预设。
+    //  PATH 里带上 ARM 工具链 + cmake + ninja（配置时要能找到 arm-none-eabi-gcc）
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "1. Configure (Release)",
+            "type": "shell",
+            "command": "C:\\Users\\31589\\AppData\\Local\\stm32cube\\bundles\\cmake\\4.3.1+st.1\\bin\\cmake.exe",
+            "args": ["--preset", "Release"],
+            "options": {
+                "env": {
+                    "PATH": "C:\\Users\\31589\\AppData\\Local\\stm32cube\\bundles\\gnu-tools-for-stm32\\14.3.1+st.2\\bin;C:\\Users\\31589\\AppData\\Local\\stm32cube\\bundles\\cmake\\4.3.1+st.1\\bin;C:\\Users\\31589\\AppData\\Local\\stm32cube\\bundles\\ninja\\1.13.2+st.1\\bin;${env:PATH}"
+                }
+            },
+            "group": { "kind": "build", "isDefault": false },
+            "problemMatcher": [],
+            "presentation": { "reveal": "always", "panel": "shared" }
+        },
+        {
+            "label": "2. Build (Release)",
+            "type": "shell",
+            "command": "C:\\Users\\31589\\AppData\\Local\\stm32cube\\bundles\\cmake\\4.3.1+st.1\\bin\\cmake.exe",
+            "args": ["--build", "--preset", "Release"],
+            "options": {
+                "env": {
+                    "PATH": "C:\\Users\\31589\\AppData\\Local\\stm32cube\\bundles\\gnu-tools-for-stm32\\14.3.1+st.2\\bin;C:\\Users\\31589\\AppData\\Local\\stm32cube\\bundles\\cmake\\4.3.1+st.1\\bin;C:\\Users\\31589\\AppData\\Local\\stm32cube\\bundles\\ninja\\1.13.2+st.1\\bin;${env:PATH}"
+                }
+            },
+            "group": { "kind": "build", "isDefault": false },
+            "problemMatcher": ["$gcc"],
+            "presentation": { "reveal": "always", "panel": "shared" }
+        },
+        {
+            "label": "3. Flash (OpenOCD)",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-ExecutionPolicy", "Bypass",
+                "-File", "${workspaceFolder}/flash/flash.ps1",
+                "-OpenOcd", "D:\\123\\xpack-openocd-0.12.0-7\\bin\\openocd.exe"
+            ],
+            "group": { "kind": "build", "isDefault": false },
+            "problemMatcher": [],
+            "presentation": { "reveal": "always", "panel": "shared" }
+        },
+        {
+            "label": "Build & Flash",
+            "dependsOn": ["1. Configure (Release)", "2. Build (Release)", "3. Flash (OpenOCD)"],
+            "dependsOrder": "sequence",
+            "group": { "kind": "build", "isDefault": true },
+            "problemMatcher": []
+        }
+    ]
+}
