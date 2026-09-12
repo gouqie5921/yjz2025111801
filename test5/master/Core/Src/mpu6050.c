@@ -12,6 +12,7 @@
 #include "mpu6050.h"
 #include "i2c.h"
 #include "main.h"
+#include <math.h>
 
 #define REG_SMPLRT_DIV      0x19u
 #define REG_CONFIG          0x1Au
@@ -20,9 +21,11 @@
 #define REG_ACCEL_XOUT_H    0x3Bu
 #define REG_PWR_MGMT_1      0x6Bu
 
-static float s_bias_gx = 0.0f;
-static float s_bias_gy = 0.0f;
-static float s_bias_gz = 0.0f;
+float g_bias_gx = 0.0f;
+float g_bias_gy = 0.0f;
+float g_bias_gz = 0.0f;
+static uint16_t s_still_cnt[3] = { 0u, 0u, 0u };
+uint16_t g_bias_track_cnt = 0u;
 static uint8_t s_whoami = 0u;
 
 /* ---------------- 软件 I2C（位操作）----------------
@@ -135,6 +138,48 @@ uint8_t  g_imu_last_err_code   = 0u;   /* 失败时的 HAL_I2C_GetError() */
 uint8_t  g_imu_last_who        = 0u;   /* 最近一次读到的 WHO_AM_I */
 uint16_t g_imu_rd_ok           = 0u;
 uint16_t g_imu_rd_fail         = 0u;
+
+/* ---- 轴向标定辅助（SWD dump 读取）---- */
+int16_t g_raw_last[6]  = { 0, 0, 0, 0, 0, 0 };
+int16_t g_track_min[6] = { 0, 0, 0, 0, 0, 0 };
+int16_t g_track_max[6] = { 0, 0, 0, 0, 0, 0 };
+static uint8_t s_track_started = 0u;
+
+void mpu6050_track_reset(void)
+{
+    s_track_started = 0u;
+}
+
+static void track(const mpu6050_raw_t *r)
+{
+    int16_t v[6];
+    uint8_t i;
+
+    v[0] = r->ax; v[1] = r->ay; v[2] = r->az;
+    v[3] = r->gx; v[4] = r->gy; v[5] = r->gz;
+
+    for (i = 0u; i < 6u; i++)
+    {
+        g_raw_last[i] = v[i];
+    }
+
+    if (s_track_started == 0u)
+    {
+        for (i = 0u; i < 6u; i++)
+        {
+            g_track_min[i] = v[i];
+            g_track_max[i] = v[i];
+        }
+        s_track_started = 1u;
+        return;
+    }
+
+    for (i = 0u; i < 6u; i++)
+    {
+        if (v[i] < g_track_min[i]) { g_track_min[i] = v[i]; }
+        if (v[i] > g_track_max[i]) { g_track_max[i] = v[i]; }
+    }
+}
 
 void mpu6050_bus_recover(void)
 {
@@ -261,6 +306,8 @@ static void unpack(const uint8_t *b, mpu6050_raw_t *raw)
     raw->gx = (int16_t)(((uint16_t)b[8]  << 8) | b[9]);
     raw->gy = (int16_t)(((uint16_t)b[10] << 8) | b[11]);
     raw->gz = (int16_t)(((uint16_t)b[12] << 8) | b[13]);
+
+    track(raw);
 }
 
 uint8_t mpu6050_init(void)
@@ -331,18 +378,51 @@ uint8_t mpu6050_read_raw(mpu6050_raw_t *raw)
 
 void mpu6050_raw_to_data(const mpu6050_raw_t *raw, mpu6050_data_t *d)
 {
+    float gx;
+    float gy;
+    float gz;
+
     if ((raw == NULL) || (d == NULL))
     {
         return;
     }
 
+    gx = (float)raw->gx / MPU6050_GYRO_LSB_PER_DPS;
+    gy = (float)raw->gy / MPU6050_GYRO_LSB_PER_DPS;
+    gz = (float)raw->gz / MPU6050_GYRO_LSB_PER_DPS;
+
+    /* 静止时自适应跟踪零偏：把残余偏置和温漂一起吃掉，抑制积分漂移 */
+    /* 逐轴独立判定：只要求"这个轴自己"静止，就微调这个轴的零偏。
+       不能要求三轴同时静止 —— 实测 gz（本项目用不到的轴）残余偏置一直超标，
+       会把整个跟踪卡死（表现为 g_bias_track_cnt 恒为 0）。 */
+    if (fabsf(gx - g_bias_gx) < MPU6050_STILL_DPS)
+    {
+        if (s_still_cnt[0] < MPU6050_BIAS_TRACK_NEED) { s_still_cnt[0]++; }
+        else { g_bias_gx += MPU6050_BIAS_TRACK_ALPHA * (gx - g_bias_gx); g_bias_track_cnt++; }
+    }
+    else { s_still_cnt[0] = 0u; }
+
+    if (fabsf(gy - g_bias_gy) < MPU6050_STILL_DPS)
+    {
+        if (s_still_cnt[1] < MPU6050_BIAS_TRACK_NEED) { s_still_cnt[1]++; }
+        else { g_bias_gy += MPU6050_BIAS_TRACK_ALPHA * (gy - g_bias_gy); g_bias_track_cnt++; }
+    }
+    else { s_still_cnt[1] = 0u; }
+
+    if (fabsf(gz - g_bias_gz) < MPU6050_STILL_DPS)
+    {
+        if (s_still_cnt[2] < MPU6050_BIAS_TRACK_NEED) { s_still_cnt[2]++; }
+        else { g_bias_gz += MPU6050_BIAS_TRACK_ALPHA * (gz - g_bias_gz); g_bias_track_cnt++; }
+    }
+    else { s_still_cnt[2] = 0u; }
+
     d->ax = (float)raw->ax / MPU6050_ACC_LSB_PER_G;
     d->ay = (float)raw->ay / MPU6050_ACC_LSB_PER_G;
     d->az = (float)raw->az / MPU6050_ACC_LSB_PER_G;
 
-    d->gx = ((float)raw->gx / MPU6050_GYRO_LSB_PER_DPS) - s_bias_gx;
-    d->gy = ((float)raw->gy / MPU6050_GYRO_LSB_PER_DPS) - s_bias_gy;
-    d->gz = ((float)raw->gz / MPU6050_GYRO_LSB_PER_DPS) - s_bias_gz;
+    d->gx = gx - g_bias_gx;
+    d->gy = gy - g_bias_gy;
+    d->gz = gz - g_bias_gz;
 }
 
 uint8_t mpu6050_read(mpu6050_data_t *d)
@@ -392,14 +472,14 @@ void mpu6050_calib_gyro(uint16_t samples)
         n = 1u;
     }
 
-    s_bias_gx = (sx / (float)n) / MPU6050_GYRO_LSB_PER_DPS;
-    s_bias_gy = (sy / (float)n) / MPU6050_GYRO_LSB_PER_DPS;
-    s_bias_gz = (sz / (float)n) / MPU6050_GYRO_LSB_PER_DPS;
+    g_bias_gx = (sx / (float)n) / MPU6050_GYRO_LSB_PER_DPS;
+    g_bias_gy = (sy / (float)n) / MPU6050_GYRO_LSB_PER_DPS;
+    g_bias_gz = (sz / (float)n) / MPU6050_GYRO_LSB_PER_DPS;
 }
 
 void mpu6050_get_gyro_bias(float *bx, float *by, float *bz)
 {
-    if (bx != NULL) { *bx = s_bias_gx; }
-    if (by != NULL) { *by = s_bias_gy; }
-    if (bz != NULL) { *bz = s_bias_gz; }
+    if (bx != NULL) { *bx = g_bias_gx; }
+    if (by != NULL) { *by = g_bias_gy; }
+    if (bz != NULL) { *bz = g_bias_gz; }
 }

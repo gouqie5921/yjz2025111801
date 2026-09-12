@@ -26,18 +26,21 @@ extern "C" {
 #define SERVO_ANGLE_CENTER  90.0f
 
 /* 指令余量：实际可命令的角度收到 [MARGIN, 180-MARGIN]。
-   原因：指令一旦顶到 0°/180° 的机械限位，舵机会持续堵转 —— 嗡嗡响 + 发热 + 电流大，
-   留 10° 余量既不丢演示效果，也保护舵机。想用满 0~180° 就把 MARGIN 改成 0。 */
-#define SERVO_ANGLE_MARGIN  10.0f
+   原因：指令一旦顶到机械限位（支架/连杆挡住），舵机会持续堵转 ——
+   嗡嗡响 + 发热 + 电流大（实测：拧到底命令 10° 时舵机发烫）。
+   留 25° 余量后，即便电位器拧到底，云台也停在 25°/155°，不再顶限位。
+   想用满 0~180° 就把 MARGIN 改成 0（但要先确认机械上真的能走到两端）。 */
+#define SERVO_ANGLE_MARGIN  25.0f
 #define SERVO_CMD_MIN       (SERVO_ANGLE_MIN + SERVO_ANGLE_MARGIN)
 #define SERVO_CMD_MAX       (SERVO_ANGLE_MAX - SERVO_ANGLE_MARGIN)
 
 #define SERVO_PULSE_MIN_US  500u    /* 0°   */
 #define SERVO_PULSE_MAX_US  2500u   /* 180° */
 
-/* 转速限制（°/s）。SG90 空载约 0.1s/60°，即约 600°/s，
-   这里限到 300°/s：既能跟上手上的陀螺仪动作，又不会让齿轮猛冲。 */
-#define SERVO_SLEW_DPS      300.0f
+/* 转速限制（°/s）。SG90 空载约 0.1s/60°，即约 600°/s。
+   实测 300 太慢：陀螺仪模式下手上转 30° 要等约 100ms 才跟上，感觉"迟滞"；
+   提高到 500 后跟手明显变好，同时仍有限速保护（不会一脚踩到底猛冲齿轮）。 */
+#define SERVO_SLEW_DPS      500.0f
 
 /* 启动 PWM，两路先回到中位 */
 void  servo_init(void);

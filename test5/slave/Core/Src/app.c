@@ -188,10 +188,16 @@ static void parse_task(void *argument)
             lock();
             s_st.err_cnt = rx.err_cnt + 1u;
             unlock();
+            (void)osDelay(1u);      /* 让出 CPU，见下方说明 */
         }
         else
         {
-            /* HAL_TIMEOUT：这段时间没数据，正常 */
+            /* HAL_TIMEOUT：这段时间没数据。
+               关键：本任务是"纯轮询"、永不阻塞，如果不主动让出 CPU，
+               优先级更低的 LinkTask/LedTask/DbgTask 会被永久饿死
+               （表现为 LED 一直快闪、串口没输出、link_ok 恒为 0）。
+               收到字节的路径不让出，保证一帧 9 字节能连续快速读完。 */
+            (void)osDelay(1u);
         }
     }
 }

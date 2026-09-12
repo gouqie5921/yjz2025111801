@@ -41,11 +41,36 @@ typedef struct
                                            便宜的兼容芯片偶发拉长时钟时会踩到这个坑 */
 #define MPU6050_READ_RETRY      3u
 
+/* 静止判定阈值（°/s）与零偏自适应跟踪参数。
+   实测：仅靠上电时的 200 次零偏校准，陀螺积分仍有缓慢漂移（几十秒就能看出来），
+   所以加了"静止时持续微调零偏"的机制，把残余偏置和温漂一起吃掉。 */
+#define MPU6050_STILL_DPS       1.5f
+#define MPU6050_BIAS_TRACK_ALPHA 0.002f  /* 每个静止样本把零偏挪动的比例 */
+#define MPU6050_BIAS_TRACK_NEED  100u    /* 连续静止 100 个样本(=1s)后才开始跟踪 */
+
+/* 已跟踪的零偏样本数（调试用，SWD 可读） */
+extern uint16_t g_bias_track_cnt;
+extern float    g_bias_gx;
+extern float    g_bias_gy;
+extern float    g_bias_gz;
+
 /* 设置 I2C 速率（在 MX_I2C1_Init() 之后调用一次即可） */
 void mpu6050_bus_config(void);
 
 /* 复位 I2C 外设并重新初始化（总线偶发卡死时的恢复手段） */
 void mpu6050_bus_recover(void);
+
+/* 轴向标定辅助：最近一次原始值 + 开机以来的历史最小/最大值。
+   顺序都是 [ax, ay, az, gx, gy, gz]。
+   用法：复位后让面包板静止读 g_raw_last（看哪个轴 ≈±16384 就是"竖直方向"），
+   再做一次单一动作（水平旋转 / 上下俯仰）后读 min/max，
+   **变化范围最大的那个陀螺轴就是该动作对应的轴**，符号由变化方向定。 */
+extern int16_t g_raw_last[6];
+extern int16_t g_track_min[6];
+extern int16_t g_track_max[6];
+
+/* 清掉历史极值（重新开始一次标定动作） */
+void mpu6050_track_reset(void);
 
 /* 初始化：检查 WHO_AM_I、唤醒、配置 DLPF/量程。返回 0=成功 1=失败（读不到器件或 ID 不认识） */
 uint8_t mpu6050_init(void);

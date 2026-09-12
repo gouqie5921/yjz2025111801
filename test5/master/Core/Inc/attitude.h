@@ -18,23 +18,29 @@ extern "C" {
 #include <stdint.h>
 #include "mpu6050.h"
 
-/* ---------------- 轴向映射（按实测现象调整） ---------------- */
+/* ---------------- 轴向映射（按实测现象调整） ----------------
+   下面这组值是按这块硬件实测标定的（GY-521 竖直插在面包板上）：
+     · 静止时重力落在 +ax（约 +1g）          → 竖直方向 = X 轴
+     · 绕竖直方向水平旋转时，gx 变化最大      → 水平旋转轴 = gx
+     · 上下俯仰时 gy 变化最大，且重力在 X-Z 平面内转移 → 俯仰轴 = gy、前后方向 = az */
 /* 陀螺仪三个轴的编号：0=gx  1=gy  2=gz */
-#define ATT_YAW_AXIS        2       /* 面包板"水平旋转"对应的陀螺轴 */
-#define ATT_YAW_SIGN        (+1.0f) /* 反了就改成 -1.0f */
+#define ATT_YAW_AXIS        0       /* 面包板"水平旋转"对应的陀螺轴 */
+#define ATT_YAW_SIGN        (+1.0f) /* 符号以"云台跟随方向正确"为准（实测标定） */
 #define ATT_PITCH_AXIS      1       /* 面包板"上下俯仰"对应的陀螺轴 */
-#define ATT_PITCH_SIGN      (+1.0f)
+#define ATT_PITCH_SIGN      (-1.0f) /* 实测：云台俯仰方向相反 -> 取反 */
 
 /* 加速度计用来做俯仰角修正的轴：上方向 / 前后方向 */
-#define ATT_ACC_UP_AXIS     2       /* 竖直方向的加速度轴 0=ax 1=ay 2=az */
-#define ATT_ACC_FWD_AXIS    1       /* 前后方向的加速度轴 */
-#define ATT_ACC_SIGN        (+1.0f)
+#define ATT_ACC_UP_AXIS     0       /* 竖直方向的加速度轴 0=ax 1=ay 2=az */
+#define ATT_ACC_FWD_AXIS    2       /* 前后方向的加速度轴 */
+#define ATT_ACC_SIGN        (-1.0f) /* 必须和 ATT_PITCH_SIGN 同号，否则滤波自相矛盾 */
 
 /* 互补滤波系数。1.0 = 纯陀螺积分（不修正，短时间演示够用） */
 #define ATT_COMP_ALPHA      0.98f
 
-/* 角速度小于该值视为静止（°/s），用于自动抑制零偏漂移 */
-#define ATT_STILL_DPS       0.8f
+/* 角速度小于该值视为静止（°/s），用于自动抑制零偏漂移。
+   实测 0.8 太小：残余偏置/手抖噪声会持续被积分成单向漂移（表现为"切进陀螺仪模式
+   云台自动往一边跑"），提高到 1.5 之后静止时基本不动；正常转动的角速度远大于该值。 */
+#define ATT_STILL_DPS       1.5f
 
 /* ---------------- 接口 ---------------- */
 typedef enum
