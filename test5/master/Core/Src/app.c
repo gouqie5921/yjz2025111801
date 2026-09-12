@@ -241,12 +241,21 @@ static void sensor_task(void *argument)
         }
         else
         {
-            float yaw     = attitude_get_yaw();
-            float pitch   = attitude_get_pitch();
-            float pan_cmd = APP_GYRO_CENTER + (APP_GYRO_PAN_GAIN * yaw);
-            float tlt_cmd = APP_GYRO_CENTER + (APP_GYRO_TILT_GAIN * pitch);
+            float yaw;
+            float pitch;
+            float pan_cmd;
+            float tlt_cmd;
 
             imu_fail = 0u;
+
+            /* 软饱和：超出可用行程时把零位一起挪，保证反向立刻有响应 */
+            attitude_limit_yaw(APP_GYRO_RANGE / APP_GYRO_PAN_GAIN);
+            attitude_limit_pitch(APP_GYRO_RANGE / APP_GYRO_TILT_GAIN);
+
+            yaw     = attitude_get_yaw();
+            pitch   = attitude_get_pitch();
+            pan_cmd = APP_GYRO_CENTER + (APP_GYRO_PAN_GAIN * yaw);
+            tlt_cmd = APP_GYRO_CENTER + (APP_GYRO_TILT_GAIN * pitch);
 
             pan_cmd = clampf(pan_cmd, APP_GYRO_CENTER - APP_GYRO_LIMIT,
                                       APP_GYRO_CENTER + APP_GYRO_LIMIT);

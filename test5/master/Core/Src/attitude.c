@@ -118,9 +118,11 @@ att_status_t attitude_update(float dt)
     w_yaw   = ATT_YAW_SIGN   * pick_gyro(&s_dat, ATT_YAW_AXIS);
     w_pitch = ATT_PITCH_SIGN * pick_gyro(&s_dat, ATT_PITCH_AXIS);
 
-    /* 静止时把积分项掐掉，抑制零偏漂移 */
-    if (fabsf(w_yaw) < ATT_STILL_DPS)   { w_yaw = 0.0f; }
-    if (fabsf(w_pitch) < ATT_STILL_DPS) { w_pitch = 0.0f; }
+    /* 注意：这里**不做**静止死区。
+       之前用 "|w| < 1.5°/s 就当 0" 来抑制漂移，副作用是缓慢转动（<1.5°/s）
+       被整个丢掉 —— 表现为"慢慢俯仰时陀螺仪不灵敏、云台半拍才跟上"。
+       漂移现在由 mpu6050 里的零偏自适应跟踪负责（实测 0.0034°/s），
+       所以这里必须原样积分，才能对慢速动作也立即响应。 */
 
     /* --- yaw：陀螺积分 --- */
     s_yaw += w_yaw * dt;
@@ -149,6 +151,34 @@ void attitude_rebase(void)
 {
     s_yaw_zero   = s_yaw;
     s_pitch_zero = s_pitch;
+}
+
+void attitude_limit_yaw(float limit)
+{
+    float rel = s_yaw - s_yaw_zero;
+
+    if (rel > limit)
+    {
+        s_yaw_zero = s_yaw - limit;
+    }
+    else if (rel < -limit)
+    {
+        s_yaw_zero = s_yaw + limit;
+    }
+}
+
+void attitude_limit_pitch(float limit)
+{
+    float rel = s_pitch - s_pitch_zero;
+
+    if (rel > limit)
+    {
+        s_pitch_zero = s_pitch - limit;
+    }
+    else if (rel < -limit)
+    {
+        s_pitch_zero = s_pitch + limit;
+    }
 }
 
 float attitude_get_yaw(void)
