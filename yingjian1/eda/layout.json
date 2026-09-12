@@ -1,0 +1,93 @@
+{
+ "page": "P1",
+ "sheet": "A3",
+ "modules": [
+  {
+   "name": "PWR",
+   "zone": "left-top",
+   "core": "U2",
+   "parts": [
+    "U2",
+    "J1",
+    "D1",
+    "R1",
+    "R2",
+    "C1",
+    "C2",
+    "C3",
+    "C4"
+   ]
+  },
+  {
+   "name": "MCU",
+   "zone": "center",
+   "core": "U1",
+   "parts": [
+    "U1",
+    "JP1",
+    "JP3",
+    "Y1",
+    "SW1",
+    "R3",
+    "R4",
+    "C5",
+    "C6",
+    "C7",
+    "C8",
+    "C9",
+    "C10",
+    "C11",
+    "C12",
+    "C13"
+   ]
+  },
+  {
+   "name": "LED",
+   "zone": "left-bottom",
+   "core": "D3",
+   "parts": [
+    "D2",
+    "D3",
+    "R5",
+    "R6"
+   ]
+  },
+  {
+   "name": "DBG",
+   "zone": "right-bottom",
+   "core": "J2",
+   "parts": [
+    "J2",
+    "J3"
+   ]
+  },
+  {
+   "name": "CAN",
+   "zone": "right-top",
+   "core": "U3",
+   "parts": [
+    "U3",
+    "J4",
+    "JP2",
+    "R7",
+    "C14"
+   ]
+  },
+  {
+   "name": "HDR",
+   "zone": "bottom",
+   "core": "J5",
+   "parts": [
+    "J5",
+    "J6"
+   ]
+  }
+ ],
+ "rules": {
+  "avoidTitleBlock": true,
+  "preservePinFanout": true,
+  "moduleGap": 120,
+  "routeChannelGap": 60,
+  "preferVerticalPeripheralPlacement": true
+ }
+}

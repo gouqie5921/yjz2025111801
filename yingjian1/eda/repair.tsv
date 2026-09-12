@@ -1,0 +1,13 @@
+C12:2	gnd	GND
+U1:37	netport	PA14
+JP3:1	netport	PB2
+C13:1	netport	NRST
+J2:4	gnd	GND
+J3:3	netport	PA9
+U1:13	netport	PA3
+J1:9	gnd	GND
+U2:3	power	+5V
+U2:2	power	+3V3
+J1:B5	netport	USB_CC2
+U1:6	netport	OSC_OUT
+C13:2	gnd	GND

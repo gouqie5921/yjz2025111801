@@ -1,0 +1,319 @@
+{
+ "version": 1,
+ "meta": {
+  "name": "test1-pcb-place",
+  "description": "PCB 分档布局：USB 左 / 电源 / MCU 中 / CAN 右，避开上下排针带",
+  "project": "yingjian1",
+  "doc": "PCB1"
+ },
+ "defaults": {
+  "timeoutSec": 30,
+  "retry": 1
+ },
+ "steps": [
+  {
+   "id": "place-J1",
+   "run": "pcb modify",
+   "flags": {
+    "id": "f77de24b19a8c2cc",
+    "patch": "{\"x\":143.8,\"y\":451}"
+   }
+  },
+  {
+   "id": "place-R1",
+   "run": "pcb modify",
+   "flags": {
+    "id": "41d22b1c79b5ac08",
+    "patch": "{\"x\":290,\"y\":550}"
+   }
+  },
+  {
+   "id": "place-R2",
+   "run": "pcb modify",
+   "flags": {
+    "id": "48be9db34cdc82ca",
+    "patch": "{\"x\":310,\"y\":620}"
+   }
+  },
+  {
+   "id": "place-D1",
+   "run": "pcb modify",
+   "flags": {
+    "id": "41f8f6e8abc426f7",
+    "patch": "{\"x\":370,\"y\":430}"
+   }
+  },
+  {
+   "id": "place-U2",
+   "run": "pcb modify",
+   "flags": {
+    "id": "9dca696d1bf2b275",
+    "patch": "{\"x\":494,\"y\":470}"
+   }
+  },
+  {
+   "id": "place-C1",
+   "run": "pcb modify",
+   "flags": {
+    "id": "354f8f2ec5b958dd",
+    "patch": "{\"x\":470,\"y\":620}"
+   }
+  },
+  {
+   "id": "place-C2",
+   "run": "pcb modify",
+   "flags": {
+    "id": "229b8493ceec4837",
+    "patch": "{\"x\":630,\"y\":285}"
+   }
+  },
+  {
+   "id": "place-C3",
+   "run": "pcb modify",
+   "flags": {
+    "id": "d4b4639871d1aef0",
+    "patch": "{\"x\":620,\"y\":620}"
+   }
+  },
+  {
+   "id": "place-C4",
+   "run": "pcb modify",
+   "flags": {
+    "id": "05605c6cc0c6dd91",
+    "patch": "{\"x\":660,\"y\":320}"
+   }
+  },
+  {
+   "id": "place-U1",
+   "run": "pcb modify",
+   "flags": {
+    "id": "0a8cbf77c10c4222",
+    "patch": "{\"x\":900,\"y\":490}"
+   }
+  },
+  {
+   "id": "place-C5",
+   "run": "pcb modify",
+   "flags": {
+    "id": "be3be09e4c2eb48c",
+    "patch": "{\"x\":780,\"y\":275}"
+   }
+  },
+  {
+   "id": "place-C6",
+   "run": "pcb modify",
+   "flags": {
+    "id": "e5d2d371895a9c4a",
+    "patch": "{\"x\":1130,\"y\":570}"
+   }
+  },
+  {
+   "id": "place-C7",
+   "run": "pcb modify",
+   "flags": {
+    "id": "1bd6c844ea8d5008",
+    "patch": "{\"x\":792,\"y\":712}"
+   }
+  },
+  {
+   "id": "place-C8",
+   "run": "pcb modify",
+   "flags": {
+    "id": "32db7240ab68047d",
+    "patch": "{\"x\":960,\"y\":275}"
+   }
+  },
+  {
+   "id": "place-C9",
+   "run": "pcb modify",
+   "flags": {
+    "id": "df04c86a016b6a9b",
+    "patch": "{\"x\":1030,\"y\":275}"
+   }
+  },
+  {
+   "id": "place-C10",
+   "run": "pcb modify",
+   "flags": {
+    "id": "7a118d7f97564dd1",
+    "patch": "{\"x\":1580,\"y\":245}"
+   }
+  },
+  {
+   "id": "place-Y1",
+   "run": "pcb modify",
+   "flags": {
+    "id": "98daff46270ecfca",
+    "patch": "{\"x\":800,\"y\":250}"
+   }
+  },
+  {
+   "id": "place-C11",
+   "run": "pcb modify",
+   "flags": {
+    "id": "f59eca2c0b4f6b9c",
+    "patch": "{\"x\":620,\"y\":235}"
+   }
+  },
+  {
+   "id": "place-C12",
+   "run": "pcb modify",
+   "flags": {
+    "id": "7890082ff14f66bc",
+    "patch": "{\"x\":960,\"y\":235}"
+   }
+  },
+  {
+   "id": "place-C13",
+   "run": "pcb modify",
+   "flags": {
+    "id": "d123f1ff8ecc046d",
+    "patch": "{\"x\":1010,\"y\":211}"
+   }
+  },
+  {
+   "id": "place-R4",
+   "run": "pcb modify",
+   "flags": {
+    "id": "101b7a5409711ed0",
+    "patch": "{\"x\":1150,\"y\":285}"
+   }
+  },
+  {
+   "id": "place-R6",
+   "run": "pcb modify",
+   "flags": {
+    "id": "6a10647ef8f60b5a",
+    "patch": "{\"x\":770,\"y\":211}"
+   }
+  },
+  {
+   "id": "place-D3",
+   "run": "pcb modify",
+   "flags": {
+    "id": "a1ba094d076d8812",
+    "patch": "{\"x\":900,\"y\":211}"
+   }
+  },
+  {
+   "id": "place-SW1",
+   "run": "pcb modify",
+   "flags": {
+    "id": "fdf30d709479cd13",
+    "patch": "{\"x\":1790,\"y\":245}"
+   }
+  },
+  {
+   "id": "place-JP1",
+   "run": "pcb modify",
+   "flags": {
+    "id": "6f46d855a6823cf6",
+    "patch": "{\"x\":380,\"y\":245}"
+   }
+  },
+  {
+   "id": "place-R3",
+   "run": "pcb modify",
+   "flags": {
+    "id": "0b7bfec85e27b1c9",
+    "patch": "{\"x\":540,\"y\":275}"
+   }
+  },
+  {
+   "id": "place-JP3",
+   "run": "pcb modify",
+   "flags": {
+    "id": "8e61e6545a481383",
+    "patch": "{\"x\":1400,\"y\":245}"
+   }
+  },
+  {
+   "id": "place-J2",
+   "run": "pcb modify",
+   "flags": {
+    "id": "318f96f72b276176",
+    "patch": "{\"x\":470,\"y\":690}"
+   }
+  },
+  {
+   "id": "place-J3",
+   "run": "pcb modify",
+   "flags": {
+    "id": "a90b1cf6c1f9735f",
+    "patch": "{\"x\":1230,\"y\":690}"
+   }
+  },
+  {
+   "id": "place-U3",
+   "run": "pcb modify",
+   "flags": {
+    "id": "2f421e49e7312e0e",
+    "patch": "{\"x\":1250,\"y\":450}"
+   }
+  },
+  {
+   "id": "place-C14",
+   "run": "pcb modify",
+   "flags": {
+    "id": "f34f765c8521a5a6",
+    "patch": "{\"x\":1250,\"y\":290}"
+   }
+  },
+  {
+   "id": "place-R7",
+   "run": "pcb modify",
+   "flags": {
+    "id": "5d3c749cbf14e21b",
+    "patch": "{\"x\":1620,\"y\":510}"
+   }
+  },
+  {
+   "id": "place-JP2",
+   "run": "pcb modify",
+   "flags": {
+    "id": "b28ac20b813475fd",
+    "patch": "{\"x\":1700,\"y\":560}"
+   }
+  },
+  {
+   "id": "place-J4",
+   "run": "pcb modify",
+   "flags": {
+    "id": "f773c7727b3b5cbe",
+    "patch": "{\"x\":2010,\"y\":456}"
+   }
+  },
+  {
+   "id": "place-R5",
+   "run": "pcb modify",
+   "flags": {
+    "id": "4f707168363d210b",
+    "patch": "{\"x\":1500,\"y\":690}"
+   }
+  },
+  {
+   "id": "place-D2",
+   "run": "pcb modify",
+   "flags": {
+    "id": "13ebceb906b18ddd",
+    "patch": "{\"x\":1590,\"y\":690}"
+   }
+  },
+  {
+   "id": "place-J5",
+   "run": "pcb modify",
+   "flags": {
+    "id": "168583b652580c87",
+    "patch": "{\"x\":1050,\"y\":765}"
+   }
+  },
+  {
+   "id": "place-J6",
+   "run": "pcb modify",
+   "flags": {
+    "id": "524415b09b9a96fd",
+    "patch": "{\"x\":1050,\"y\":143}"
+   }
+  }
+ ]
+}

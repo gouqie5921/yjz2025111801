@@ -1,0 +1,319 @@
+{
+ "version": 1,
+ "meta": {
+  "name": "test1-pcb-pack",
+  "description": "PCB 摆放（锚点换算，patch 批量）",
+  "project": "yingjian1",
+  "doc": "PCB1"
+ },
+ "defaults": {
+  "timeoutSec": 30,
+  "retry": 1
+ },
+ "steps": [
+  {
+   "id": "mv-J5",
+   "run": "pcb modify",
+   "flags": {
+    "id": "168583b652580c87",
+    "patch": "{\"x\":1050,\"y\":765}"
+   }
+  },
+  {
+   "id": "mv-J6",
+   "run": "pcb modify",
+   "flags": {
+    "id": "524415b09b9a96fd",
+    "patch": "{\"x\":1050,\"y\":143}"
+   }
+  },
+  {
+   "id": "mv-J1",
+   "run": "pcb modify",
+   "flags": {
+    "id": "f77de24b19a8c2cc",
+    "patch": "{\"x\":250,\"y\":419}"
+   }
+  },
+  {
+   "id": "mv-J4",
+   "run": "pcb modify",
+   "flags": {
+    "id": "91b3a2c2fc1c41e0",
+    "patch": "{\"x\":1790,\"y\":313,\"rotation\":90}"
+   }
+  },
+  {
+   "id": "mv-J3",
+   "run": "pcb modify",
+   "flags": {
+    "id": "a90b1cf6c1f9735f",
+    "patch": "{\"x\":560,\"y\":250}"
+   }
+  },
+  {
+   "id": "mv-J2",
+   "run": "pcb modify",
+   "flags": {
+    "id": "318f96f72b276176",
+    "patch": "{\"x\":560,\"y\":650}"
+   }
+  },
+  {
+   "id": "mv-U1",
+   "run": "pcb modify",
+   "flags": {
+    "id": "0a8cbf77c10c4222",
+    "patch": "{\"x\":1090,\"y\":450}"
+   }
+  },
+  {
+   "id": "mv-U2",
+   "run": "pcb modify",
+   "flags": {
+    "id": "9dca696d1bf2b275",
+    "patch": "{\"x\":448,\"y\":700}"
+   }
+  },
+  {
+   "id": "mv-U3",
+   "run": "pcb modify",
+   "flags": {
+    "id": "2f421e49e7312e0e",
+    "patch": "{\"x\":1650,\"y\":636}"
+   }
+  },
+  {
+   "id": "mv-C1",
+   "run": "pcb modify",
+   "flags": {
+    "id": "354f8f2ec5b958dd",
+    "patch": "{\"x\":330,\"y\":660}"
+   }
+  },
+  {
+   "id": "mv-C2",
+   "run": "pcb modify",
+   "flags": {
+    "id": "229b8493ceec4837",
+    "patch": "{\"x\":430,\"y\":640}"
+   }
+  },
+  {
+   "id": "mv-C3",
+   "run": "pcb modify",
+   "flags": {
+    "id": "d4b4639871d1aef0",
+    "patch": "{\"x\":540,\"y\":700}"
+   }
+  },
+  {
+   "id": "mv-C4",
+   "run": "pcb modify",
+   "flags": {
+    "id": "05605c6cc0c6dd91",
+    "patch": "{\"x\":540,\"y\":620}"
+   }
+  },
+  {
+   "id": "mv-D1",
+   "run": "pcb modify",
+   "flags": {
+    "id": "41f8f6e8abc426f7",
+    "patch": "{\"x\":330,\"y\":560}"
+   }
+  },
+  {
+   "id": "mv-R1",
+   "run": "pcb modify",
+   "flags": {
+    "id": "41d22b1c79b5ac08",
+    "patch": "{\"x\":250,\"y\":700}"
+   }
+  },
+  {
+   "id": "mv-R2",
+   "run": "pcb modify",
+   "flags": {
+    "id": "48be9db34cdc82ca",
+    "patch": "{\"x\":250,\"y\":640}"
+   }
+  },
+  {
+   "id": "mv-D2",
+   "run": "pcb modify",
+   "flags": {
+    "id": "13ebceb906b18ddd",
+    "patch": "{\"x\":695,\"y\":769}"
+   }
+  },
+  {
+   "id": "mv-R5",
+   "run": "pcb modify",
+   "flags": {
+    "id": "4f707168363d210b",
+    "patch": "{\"x\":640,\"y\":770}"
+   }
+  },
+  {
+   "id": "mv-D3",
+   "run": "pcb modify",
+   "flags": {
+    "id": "a1ba094d076d8812",
+    "patch": "{\"x\":695,\"y\":599}"
+   }
+  },
+  {
+   "id": "mv-R6",
+   "run": "pcb modify",
+   "flags": {
+    "id": "6a10647ef8f60b5a",
+    "patch": "{\"x\":640,\"y\":600}"
+   }
+  },
+  {
+   "id": "mv-C5",
+   "run": "pcb modify",
+   "flags": {
+    "id": "be3be09e4c2eb48c",
+    "patch": "{\"x\":900,\"y\":210}"
+   }
+  },
+  {
+   "id": "mv-C6",
+   "run": "pcb modify",
+   "flags": {
+    "id": "e5d2d371895a9c4a",
+    "patch": "{\"x\":960,\"y\":210}"
+   }
+  },
+  {
+   "id": "mv-C7",
+   "run": "pcb modify",
+   "flags": {
+    "id": "1bd6c844ea8d5008",
+    "patch": "{\"x\":1020,\"y\":210}"
+   }
+  },
+  {
+   "id": "mv-C8",
+   "run": "pcb modify",
+   "flags": {
+    "id": "32db7240ab68047d",
+    "patch": "{\"x\":1080,\"y\":210}"
+   }
+  },
+  {
+   "id": "mv-C9",
+   "run": "pcb modify",
+   "flags": {
+    "id": "df04c86a016b6a9b",
+    "patch": "{\"x\":1140,\"y\":210}"
+   }
+  },
+  {
+   "id": "mv-C10",
+   "run": "pcb modify",
+   "flags": {
+    "id": "7a118d7f97564dd1",
+    "patch": "{\"x\":1200,\"y\":210}"
+   }
+  },
+  {
+   "id": "mv-Y1",
+   "run": "pcb modify",
+   "flags": {
+    "id": "98daff46270ecfca",
+    "patch": "{\"x\":850,\"y\":300}"
+   }
+  },
+  {
+   "id": "mv-C11",
+   "run": "pcb modify",
+   "flags": {
+    "id": "f59eca2c0b4f6b9c",
+    "patch": "{\"x\":790,\"y\":300}"
+   }
+  },
+  {
+   "id": "mv-C12",
+   "run": "pcb modify",
+   "flags": {
+    "id": "7890082ff14f66bc",
+    "patch": "{\"x\":910,\"y\":300}"
+   }
+  },
+  {
+   "id": "mv-C13",
+   "run": "pcb modify",
+   "flags": {
+    "id": "d123f1ff8ecc046d",
+    "patch": "{\"x\":1000,\"y\":330}"
+   }
+  },
+  {
+   "id": "mv-R3",
+   "run": "pcb modify",
+   "flags": {
+    "id": "0b7bfec85e27b1c9",
+    "patch": "{\"x\":1180,\"y\":300}"
+   }
+  },
+  {
+   "id": "mv-R4",
+   "run": "pcb modify",
+   "flags": {
+    "id": "101b7a5409711ed0",
+    "patch": "{\"x\":1240,\"y\":300}"
+   }
+  },
+  {
+   "id": "mv-C14",
+   "run": "pcb modify",
+   "flags": {
+    "id": "f34f765c8521a5a6",
+    "patch": "{\"x\":1570,\"y\":640}"
+   }
+  },
+  {
+   "id": "mv-R7",
+   "run": "pcb modify",
+   "flags": {
+    "id": "5d3c749cbf14e21b",
+    "patch": "{\"x\":1730,\"y\":640}"
+   }
+  },
+  {
+   "id": "mv-JP2",
+   "run": "pcb modify",
+   "flags": {
+    "id": "b28ac20b813475fd",
+    "patch": "{\"x\":1650,\"y\":720}"
+   }
+  },
+  {
+   "id": "mv-SW1",
+   "run": "pcb modify",
+   "flags": {
+    "id": "fdf30d709479cd13",
+    "patch": "{\"x\":1090,\"y\":700}"
+   }
+  },
+  {
+   "id": "mv-JP1",
+   "run": "pcb modify",
+   "flags": {
+    "id": "6f46d855a6823cf6",
+    "patch": "{\"x\":990,\"y\":700}"
+   }
+  },
+  {
+   "id": "mv-JP3",
+   "run": "pcb modify",
+   "flags": {
+    "id": "8e61e6545a481383",
+    "patch": "{\"x\":1190,\"y\":700}"
+   }
+  }
+ ]
+}

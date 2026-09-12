@@ -1,0 +1,62 @@
+{
+  "_doc": [
+    "第一题 最小系统板 BOM（STM32F103C8T6 + 蓝丸兼容 2x20 排针 + CAN 拓展）",
+    "libraryUuid 全部为立创官方器件库；deviceUuid 来自 lib search / standard-parts.json 实测。",
+    "module 字段用于 sch autolayout 的功能分区。"
+  ],
+  "library": "0819f05c4eef4c71ace90d822a990e87",
+  "parts": [
+    { "ref": "U1", "module": "MCU", "value": "STM32F103C8T6", "lcsc": "C8734", "uuid": "accfc2f6010745268febab2459577079", "desc": "主控 LQFP-48" },
+    { "ref": "U2", "module": "PWR", "value": "AMS1117-3.3", "lcsc": "C6186", "uuid": "9f9c6cb41c7449fd8acf96aceed2661a", "desc": "5V->3.3V LDO 1A" },
+    { "ref": "U3", "module": "CAN", "value": "SN65HVD230QD", "lcsc": "C2864310", "uuid": "397d168fe3af49c4a65d2791e22d52e2", "desc": "3.3V CAN 收发器 SOIC-8" },
+
+    { "ref": "J1", "module": "PWR", "value": "TYPE-C-16P", "lcsc": "C9900012665", "uuid": "fafc5d2de09d4595b0cc7abedc0530e6", "desc": "USB Type-C 16P 供电口" },
+    { "ref": "J2", "module": "DBG", "value": "SIP4", "lcsc": "C9900010184", "uuid": "5b6c1e0431574187983e99df44da4a63", "desc": "SWD 调试口 4pin" },
+    { "ref": "J3", "module": "DBG", "value": "SIP4", "lcsc": "C9900010184", "uuid": "5b6c1e0431574187983e99df44da4a63", "desc": "USART1 串口下载口 4pin" },
+    { "ref": "J4", "module": "CAN", "value": "KF301-3P", "lcsc": "C9900019072", "uuid": "d1d3e801c5c6433ea8cbdc9bd2e1b973", "desc": "CAN 接线端子 3P" },
+    { "ref": "J5", "module": "HDR", "value": "PZ254-1-20", "lcsc": "C2894943", "uuid": "42df0181faa8402faffa1e4c701aa479", "desc": "左排针 1x20（蓝丸 Header1）" },
+    { "ref": "J6", "module": "HDR", "value": "PZ254-1-20", "lcsc": "C2894943", "uuid": "42df0181faa8402faffa1e4c701aa479", "desc": "右排针 1x20（蓝丸 Header2）" },
+    { "ref": "JP1", "module": "MCU", "value": "HEAD2", "lcsc": "C9900010030", "uuid": "75deb6b8f00547acbb71a567c2dd03b2", "desc": "BOOT0 跳线" },
+    { "ref": "JP2", "module": "CAN", "value": "HEAD2", "lcsc": "C9900010030", "uuid": "75deb6b8f00547acbb71a567c2dd03b2", "desc": "CAN 120R 终端电阻跳线" },
+    { "ref": "JP3", "module": "MCU", "value": "HEAD2", "lcsc": "C9900010030", "uuid": "75deb6b8f00547acbb71a567c2dd03b2", "desc": "BOOT1(PB2) 跳线" },
+
+    { "ref": "D1", "module": "PWR", "value": "SS34", "lcsc": "C8678", "uuid": "009407eaaa604eb9b6f73cc3868f316d", "desc": "VBUS->+5V 肖特基 OR" },
+    { "ref": "D2", "module": "LED", "value": "GREEN", "lcsc": "C2297", "uuid": "9934e6f2be03427c81d2f7ee362750fc", "desc": "电源指示灯 0805 绿" },
+    { "ref": "D3", "module": "LED", "value": "YELLOW", "lcsc": "C2296", "uuid": "06303f8c50b646d88d0dd08d2ec9692c", "desc": "功能指示灯 0805 黄（PC13）" },
+
+    { "ref": "Y1", "module": "MCU", "value": "8MHz", "lcsc": "C115962", "uuid": "bed3d633aa75466a80b0c6228b744c89", "desc": "8MHz 无源晶振 5032 CL=20pF" },
+
+    { "ref": "SW1", "module": "MCU", "value": "TS-1088", "lcsc": "C720477", "uuid": "cff07d923b95482c818b184e98b80db7", "desc": "复位按键" },
+
+    { "ref": "R1", "module": "PWR", "value": "5.1k", "lcsc": "C25905", "uuid": "ef1f93374e0c4079b48a2d1a3cec8f6b", "desc": "USB-C CC1 Rd" },
+    { "ref": "R2", "module": "PWR", "value": "5.1k", "lcsc": "C25905", "uuid": "ef1f93374e0c4079b48a2d1a3cec8f6b", "desc": "USB-C CC2 Rd" },
+    { "ref": "R3", "module": "MCU", "value": "10k", "lcsc": "C25744", "uuid": "c3b9baa5ef2e4070a4c0f9e9cd04fe6e", "desc": "BOOT0 下拉" },
+    { "ref": "R4", "module": "MCU", "value": "10k", "lcsc": "C25744", "uuid": "c3b9baa5ef2e4070a4c0f9e9cd04fe6e", "desc": "NRST 上拉" },
+    { "ref": "R5", "module": "LED", "value": "330R", "lcsc": "C25104", "uuid": "a60160c6e65140998078961749427162", "desc": "电源灯限流（绿 LED Vf≈2.6-3.1V，330R→约1.4mA）" },
+    { "ref": "R6", "module": "LED", "value": "470R", "lcsc": "C25117", "uuid": "c404d253ad9e4b6483067cf76635c0e8", "desc": "功能灯限流（PC13 灌电流≤3mA）" },
+    { "ref": "R7", "module": "CAN", "value": "120R", "lcsc": "C25079", "uuid": "28caa4826254451bb204d5f4d9279dbd", "desc": "CAN 终端电阻" },
+
+    { "ref": "C1", "module": "PWR", "value": "10uF", "lcsc": "C440198", "uuid": "6e5726223dd84f70bc3b626fc7d1f72c", "desc": "+5V 输入储能 0805" },
+    { "ref": "C2", "module": "PWR", "value": "100nF", "lcsc": "C1525", "uuid": "87bb635d0b2f489a9f60e7cd225beb3c", "desc": "+5V 高频去耦" },
+    { "ref": "C3", "module": "PWR", "value": "22uF", "lcsc": "C45783", "uuid": "159c3da60be9490abf4e97599788a0d5", "desc": "+3V3 输出储能 0805" },
+    { "ref": "C4", "module": "PWR", "value": "100nF", "lcsc": "C1525", "uuid": "87bb635d0b2f489a9f60e7cd225beb3c", "desc": "+3V3 高频去耦" },
+    { "ref": "C5", "module": "MCU", "value": "100nF", "lcsc": "C1525", "uuid": "87bb635d0b2f489a9f60e7cd225beb3c", "desc": "VDD_1 去耦" },
+    { "ref": "C6", "module": "MCU", "value": "100nF", "lcsc": "C1525", "uuid": "87bb635d0b2f489a9f60e7cd225beb3c", "desc": "VDD_2 去耦" },
+    { "ref": "C7", "module": "MCU", "value": "100nF", "lcsc": "C1525", "uuid": "87bb635d0b2f489a9f60e7cd225beb3c", "desc": "VDD_3 去耦" },
+    { "ref": "C8", "module": "MCU", "value": "100nF", "lcsc": "C1525", "uuid": "87bb635d0b2f489a9f60e7cd225beb3c", "desc": "VDDA 去耦" },
+    { "ref": "C9", "module": "MCU", "value": "1uF", "lcsc": "C52923", "uuid": "992c7b7e1330424dbc2a0bbf52aedab3", "desc": "VDDA 储能" },
+    { "ref": "C10", "module": "MCU", "value": "10uF", "lcsc": "C440198", "uuid": "6e5726223dd84f70bc3b626fc7d1f72c", "desc": "+3V3 主储能 0805" },
+    { "ref": "C11", "module": "MCU", "value": "33pF", "lcsc": "C1562", "uuid": "d3ee21025f72499e9a597c3c0d67eafe", "desc": "HSE 负载电容 OSC_IN" },
+    { "ref": "C12", "module": "MCU", "value": "33pF", "lcsc": "C1562", "uuid": "d3ee21025f72499e9a597c3c0d67eafe", "desc": "HSE 负载电容 OSC_OUT" },
+    { "ref": "C13", "module": "MCU", "value": "100nF", "lcsc": "C1525", "uuid": "87bb635d0b2f489a9f60e7cd225beb3c", "desc": "NRST 滤波" },
+    { "ref": "C14", "module": "CAN", "value": "100nF", "lcsc": "C1525", "uuid": "87bb635d0b2f489a9f60e7cd225beb3c", "desc": "CAN 收发器去耦" }
+  ],
+  "modules": [
+    { "name": "PWR", "zone": "left-top", "title": "电源模块", "core": "U2" },
+    { "name": "MCU", "zone": "center", "title": "MCU 核心", "core": "U1" },
+    { "name": "LED", "zone": "left-bottom", "title": "指示灯", "core": "D3" },
+    { "name": "DBG", "zone": "right-bottom", "title": "调试与串口", "core": "J2" },
+    { "name": "CAN", "zone": "right-top", "title": "CAN 通信", "core": "U3" },
+    { "name": "HDR", "zone": "bottom", "title": "扩展排针", "core": "J5" }
+  ]
+}

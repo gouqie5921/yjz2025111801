@@ -1,0 +1,7 @@
+﻿.\easyeda.exe : unknown flag: --json
+At line:2 char:1
++ .\easyeda.exe pcb outline-get --project yingjian1 --doc PCB1 --json 2 ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (unknown flag: --json:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 

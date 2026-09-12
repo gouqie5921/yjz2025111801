@@ -1,0 +1,319 @@
+{
+ "version": 1,
+ "meta": {
+  "name": "test1-minsys-pack",
+  "description": "第一题最小系统板：按功能分区的确定性摆放（sch modify 绝对坐标）",
+  "project": "yingjian1",
+  "doc": "P1"
+ },
+ "defaults": {
+  "timeoutSec": 30,
+  "retry": 1
+ },
+ "steps": [
+  {
+   "id": "move-J1",
+   "run": "sch modify",
+   "flags": {
+    "id": "37c336eceb196374",
+    "patch": "{\"x\":100,\"y\":1080}"
+   }
+  },
+  {
+   "id": "move-D1",
+   "run": "sch modify",
+   "flags": {
+    "id": "1b9d4967c10f7b32",
+    "patch": "{\"x\":220,\"y\":1080}"
+   }
+  },
+  {
+   "id": "move-C1",
+   "run": "sch modify",
+   "flags": {
+    "id": "0af389b80f7d43fe",
+    "patch": "{\"x\":340,\"y\":1080}"
+   }
+  },
+  {
+   "id": "move-U2",
+   "run": "sch modify",
+   "flags": {
+    "id": "7ac757bf787c682d",
+    "patch": "{\"x\":100,\"y\":960}"
+   }
+  },
+  {
+   "id": "move-R1",
+   "run": "sch modify",
+   "flags": {
+    "id": "96e9c2a3ccc1dbb5",
+    "patch": "{\"x\":220,\"y\":960}"
+   }
+  },
+  {
+   "id": "move-C2",
+   "run": "sch modify",
+   "flags": {
+    "id": "ab1a722661eb3d28",
+    "patch": "{\"x\":340,\"y\":960}"
+   }
+  },
+  {
+   "id": "move-C3",
+   "run": "sch modify",
+   "flags": {
+    "id": "8ba3d9abaacc259d",
+    "patch": "{\"x\":100,\"y\":840}"
+   }
+  },
+  {
+   "id": "move-R2",
+   "run": "sch modify",
+   "flags": {
+    "id": "b6dfb41c1d58ef0a",
+    "patch": "{\"x\":220,\"y\":840}"
+   }
+  },
+  {
+   "id": "move-C4",
+   "run": "sch modify",
+   "flags": {
+    "id": "c416519fca603c8d",
+    "patch": "{\"x\":340,\"y\":840}"
+   }
+  },
+  {
+   "id": "move-U1",
+   "run": "sch modify",
+   "flags": {
+    "id": "370e593def078e13",
+    "patch": "{\"x\":700,\"y\":850}"
+   }
+  },
+  {
+   "id": "move-C5",
+   "run": "sch modify",
+   "flags": {
+    "id": "aa73a4b63269a22f",
+    "patch": "{\"x\":520,\"y\":1010}"
+   }
+  },
+  {
+   "id": "move-C6",
+   "run": "sch modify",
+   "flags": {
+    "id": "a92ffd5c0951f5ac",
+    "patch": "{\"x\":520,\"y\":960}"
+   }
+  },
+  {
+   "id": "move-C7",
+   "run": "sch modify",
+   "flags": {
+    "id": "34dec56b9410a984",
+    "patch": "{\"x\":520,\"y\":910}"
+   }
+  },
+  {
+   "id": "move-C8",
+   "run": "sch modify",
+   "flags": {
+    "id": "7b4bb39c50da4ae8",
+    "patch": "{\"x\":520,\"y\":860}"
+   }
+  },
+  {
+   "id": "move-C9",
+   "run": "sch modify",
+   "flags": {
+    "id": "31d5c9316cd7b537",
+    "patch": "{\"x\":520,\"y\":810}"
+   }
+  },
+  {
+   "id": "move-C10",
+   "run": "sch modify",
+   "flags": {
+    "id": "85da7dbadefdd631",
+    "patch": "{\"x\":430,\"y\":1010}"
+   }
+  },
+  {
+   "id": "move-C11",
+   "run": "sch modify",
+   "flags": {
+    "id": "c283581888fae45f",
+    "patch": "{\"x\":430,\"y\":960}"
+   }
+  },
+  {
+   "id": "move-C12",
+   "run": "sch modify",
+   "flags": {
+    "id": "c583dbba905fde5b",
+    "patch": "{\"x\":430,\"y\":910}"
+   }
+  },
+  {
+   "id": "move-C13",
+   "run": "sch modify",
+   "flags": {
+    "id": "493c7e176cd9ccd9",
+    "patch": "{\"x\":430,\"y\":860}"
+   }
+  },
+  {
+   "id": "move-Y1",
+   "run": "sch modify",
+   "flags": {
+    "id": "3123b4b43ed67c6d",
+    "patch": "{\"x\":430,\"y\":810}"
+   }
+  },
+  {
+   "id": "move-R3",
+   "run": "sch modify",
+   "flags": {
+    "id": "aaeeb97decfde366",
+    "patch": "{\"x\":880,\"y\":1010}"
+   }
+  },
+  {
+   "id": "move-R4",
+   "run": "sch modify",
+   "flags": {
+    "id": "79b1088de270c4d6",
+    "patch": "{\"x\":880,\"y\":960}"
+   }
+  },
+  {
+   "id": "move-JP1",
+   "run": "sch modify",
+   "flags": {
+    "id": "54bbace000532a97",
+    "patch": "{\"x\":880,\"y\":910}"
+   }
+  },
+  {
+   "id": "move-JP3",
+   "run": "sch modify",
+   "flags": {
+    "id": "3fa05e20b12ec8ec",
+    "patch": "{\"x\":880,\"y\":860}"
+   }
+  },
+  {
+   "id": "move-SW1",
+   "run": "sch modify",
+   "flags": {
+    "id": "c1fa3b300445515c",
+    "patch": "{\"x\":880,\"y\":810}"
+   }
+  },
+  {
+   "id": "move-U3",
+   "run": "sch modify",
+   "flags": {
+    "id": "e9845845a99dffea",
+    "patch": "{\"x\":1150,\"y\":1050}"
+   }
+  },
+  {
+   "id": "move-J4",
+   "run": "sch modify",
+   "flags": {
+    "id": "ccc5b1f4d8200f3e",
+    "patch": "{\"x\":1280,\"y\":1050}"
+   }
+  },
+  {
+   "id": "move-C14",
+   "run": "sch modify",
+   "flags": {
+    "id": "242f83c68aa0f1b9",
+    "patch": "{\"x\":1410,\"y\":1050}"
+   }
+  },
+  {
+   "id": "move-R7",
+   "run": "sch modify",
+   "flags": {
+    "id": "e1181e2752fd2708",
+    "patch": "{\"x\":1150,\"y\":900}"
+   }
+  },
+  {
+   "id": "move-JP2",
+   "run": "sch modify",
+   "flags": {
+    "id": "dc7baf6588eee766",
+    "patch": "{\"x\":1280,\"y\":900}"
+   }
+  },
+  {
+   "id": "move-D2",
+   "run": "sch modify",
+   "flags": {
+    "id": "de85f6faaccdd8ad",
+    "patch": "{\"x\":150,\"y\":500}"
+   }
+  },
+  {
+   "id": "move-D3",
+   "run": "sch modify",
+   "flags": {
+    "id": "7780c8c430b4b80b",
+    "patch": "{\"x\":280,\"y\":500}"
+   }
+  },
+  {
+   "id": "move-R5",
+   "run": "sch modify",
+   "flags": {
+    "id": "25622eaf6223e020",
+    "patch": "{\"x\":150,\"y\":370}"
+   }
+  },
+  {
+   "id": "move-R6",
+   "run": "sch modify",
+   "flags": {
+    "id": "671c32db41eb3511",
+    "patch": "{\"x\":280,\"y\":370}"
+   }
+  },
+  {
+   "id": "move-J2",
+   "run": "sch modify",
+   "flags": {
+    "id": "ca203978154d5e75",
+    "patch": "{\"x\":1150,\"y\":450}"
+   }
+  },
+  {
+   "id": "move-J3",
+   "run": "sch modify",
+   "flags": {
+    "id": "312c08933122d92d",
+    "patch": "{\"x\":1260,\"y\":450}"
+   }
+  },
+  {
+   "id": "move-J5",
+   "run": "sch modify",
+   "flags": {
+    "id": "270fafc92f208fc6",
+    "patch": "{\"x\":1420,\"y\":450}"
+   }
+  },
+  {
+   "id": "move-J6",
+   "run": "sch modify",
+   "flags": {
+    "id": "13780c814f53dd50",
+    "patch": "{\"x\":1560,\"y\":450}"
+   }
+  }
+ ]
+}

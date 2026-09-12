@@ -1,0 +1,262 @@
+{
+ "version": 1,
+ "meta": {
+  "name": "test1-stagger-fix",
+  "description": "定向消除网标重叠：外法向 + 四档错开桩长",
+  "project": "yingjian1",
+  "doc": "P1"
+ },
+ "defaults": {
+  "timeoutSec": 30,
+  "retry": 1
+ },
+ "steps": [
+  {
+   "id": "disc-C12_2",
+   "run": "sch disconnect",
+   "flags": {
+    "pin": "C12:2"
+   }
+  },
+  {
+   "id": "conn-C12_2",
+   "run": "sch connect",
+   "name": "C12:2 -> GND net_label down/20",
+   "flags": {
+    "pin": "C12:2",
+    "kind": "net_label",
+    "net": "GND",
+    "direction": "down",
+    "offset": 20
+   }
+  },
+  {
+   "id": "disc-JP3_1",
+   "run": "sch disconnect",
+   "flags": {
+    "pin": "JP3:1"
+   }
+  },
+  {
+   "id": "conn-JP3_1",
+   "run": "sch connect",
+   "name": "JP3:1 -> PB2 net_label left/20",
+   "flags": {
+    "pin": "JP3:1",
+    "kind": "net_label",
+    "net": "PB2",
+    "direction": "left",
+    "offset": 20
+   }
+  },
+  {
+   "id": "disc-U1_37",
+   "run": "sch disconnect",
+   "flags": {
+    "pin": "U1:37"
+   }
+  },
+  {
+   "id": "conn-U1_37",
+   "run": "sch connect",
+   "name": "U1:37 -> PA14 net_label right/20",
+   "flags": {
+    "pin": "U1:37",
+    "kind": "net_label",
+    "net": "PA14",
+    "direction": "right",
+    "offset": 20
+   }
+  },
+  {
+   "id": "disc-C13_2",
+   "run": "sch disconnect",
+   "flags": {
+    "pin": "C13:2"
+   }
+  },
+  {
+   "id": "conn-C13_2",
+   "run": "sch connect",
+   "name": "C13:2 -> GND net_label down/20",
+   "flags": {
+    "pin": "C13:2",
+    "kind": "net_label",
+    "net": "GND",
+    "direction": "down",
+    "offset": 20
+   }
+  },
+  {
+   "id": "disc-C13_1",
+   "run": "sch disconnect",
+   "flags": {
+    "pin": "C13:1"
+   }
+  },
+  {
+   "id": "conn-C13_1",
+   "run": "sch connect",
+   "name": "C13:1 -> NRST net_label down/60",
+   "flags": {
+    "pin": "C13:1",
+    "kind": "net_label",
+    "net": "NRST",
+    "direction": "down",
+    "offset": 60
+   }
+  },
+  {
+   "id": "disc-U2_2",
+   "run": "sch disconnect",
+   "flags": {
+    "pin": "U2:2"
+   }
+  },
+  {
+   "id": "conn-U2_2",
+   "run": "sch connect",
+   "name": "U2:2 -> +3V3 net_label left/20",
+   "flags": {
+    "pin": "U2:2",
+    "kind": "net_label",
+    "net": "+3V3",
+    "direction": "left",
+    "offset": 20
+   }
+  },
+  {
+   "id": "disc-U2_3",
+   "run": "sch disconnect",
+   "flags": {
+    "pin": "U2:3"
+   }
+  },
+  {
+   "id": "conn-U2_3",
+   "run": "sch connect",
+   "name": "U2:3 -> +5V net_label left/60",
+   "flags": {
+    "pin": "U2:3",
+    "kind": "net_label",
+    "net": "+5V",
+    "direction": "left",
+    "offset": 60
+   }
+  },
+  {
+   "id": "disc-J1_9",
+   "run": "sch disconnect",
+   "flags": {
+    "pin": "J1:9"
+   }
+  },
+  {
+   "id": "conn-J1_9",
+   "run": "sch connect",
+   "name": "J1:9 -> GND net_label up/20",
+   "flags": {
+    "pin": "J1:9",
+    "kind": "net_label",
+    "net": "GND",
+    "direction": "up",
+    "offset": 20
+   }
+  },
+  {
+   "id": "disc-J1_B5",
+   "run": "sch disconnect",
+   "flags": {
+    "pin": "J1:B5"
+   }
+  },
+  {
+   "id": "conn-J1_B5",
+   "run": "sch connect",
+   "name": "J1:B5 -> USB_CC2 net_label right/20",
+   "flags": {
+    "pin": "J1:B5",
+    "kind": "net_label",
+    "net": "USB_CC2",
+    "direction": "right",
+    "offset": 20
+   }
+  },
+  {
+   "id": "disc-U1_6",
+   "run": "sch disconnect",
+   "flags": {
+    "pin": "U1:6"
+   }
+  },
+  {
+   "id": "conn-U1_6",
+   "run": "sch connect",
+   "name": "U1:6 -> OSC_OUT net_label left/20",
+   "flags": {
+    "pin": "U1:6",
+    "kind": "net_label",
+    "net": "OSC_OUT",
+    "direction": "left",
+    "offset": 20
+   }
+  },
+  {
+   "id": "disc-U1_13",
+   "run": "sch disconnect",
+   "flags": {
+    "pin": "U1:13"
+   }
+  },
+  {
+   "id": "conn-U1_13",
+   "run": "sch connect",
+   "name": "U1:13 -> PA3 net_label left/60",
+   "flags": {
+    "pin": "U1:13",
+    "kind": "net_label",
+    "net": "PA3",
+    "direction": "left",
+    "offset": 60
+   }
+  },
+  {
+   "id": "disc-J2_4",
+   "run": "sch disconnect",
+   "flags": {
+    "pin": "J2:4"
+   }
+  },
+  {
+   "id": "conn-J2_4",
+   "run": "sch connect",
+   "name": "J2:4 -> GND net_label left/20",
+   "flags": {
+    "pin": "J2:4",
+    "kind": "net_label",
+    "net": "GND",
+    "direction": "left",
+    "offset": 20
+   }
+  },
+  {
+   "id": "disc-J3_3",
+   "run": "sch disconnect",
+   "flags": {
+    "pin": "J3:3"
+   }
+  },
+  {
+   "id": "conn-J3_3",
+   "run": "sch connect",
+   "name": "J3:3 -> PA9 net_label left/20",
+   "flags": {
+    "pin": "J3:3",
+    "kind": "net_label",
+    "net": "PA9",
+    "direction": "left",
+    "offset": 20
+   }
+  }
+ ]
+}

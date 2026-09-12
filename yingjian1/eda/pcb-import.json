@@ -1,0 +1,71 @@
+﻿{
+  "id": "req_16881",
+  "type": "response",
+  "version": "v1",
+  "createdAt": "2026-09-12T13:52:20.2641617Z",
+  "ok": true,
+  "result": {
+    "apiTimedOut": false,
+    "board": {
+      "name": "Board1",
+      "pcbUuid": "c84b4d968c329581",
+      "schematicUuid": "38d95f1f28d0873b"
+    },
+    "componentsAfter": 38,
+    "componentsBefore": 0,
+    "confirm": "applied",
+    "createdBoard": false,
+    "imported": true,
+    "reason": null
+  },
+  "context": {
+    "projectUuid": "0633e9188f88ef8e16683b97680d23376f1e1e95868687049470950196d84563",
+    "projectName": "yingjian1",
+    "documentUuid": "c84b4d968c329581",
+    "documentType": "pcb",
+    "tabId": "c84b4d968c329581@0633e9188f88ef8e16683b97680d23376f1e1e95868687049470950196d84563"
+  },
+  "seq": 10250,
+  "seqAbandoned": 24,
+  "abandonedIds": [
+    "req_217",
+    "req_223",
+    "req_239",
+    "req_245",
+    "req_251",
+    "req_257",
+    "req_7938",
+    "req_7974",
+    "req_7994",
+    "req_8010",
+    "req_8025",
+    "req_8045",
+    "req_8060",
+    "req_9206",
+    "req_9572",
+    "req_9592",
+    "req_9607",
+    "req_13433",
+    "req_13454",
+    "req_13469",
+    "req_13489",
+    "req_13504",
+    "req_13524",
+    "req_14220"
+  ]
+}
+.\easyeda.exe : ⚠ staleRisk: PCB was mutated by pcb.import_changes since the last reload — pcb.documents.list (and DRC)
+ may read stale engine state; run `easyeda doc reload` first (SKILL 铁律 5)
+At line:2 char:1
++ .\easyeda.exe pcb import-changes --project yingjian1 --doc PCB1 2>&1  ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (⚠ staleRisk: PC...st (SKILL 铁律 5):String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+sync-attrs: 0/0 PCB component(s) backfilled from the device library
+ℹ sync-attrs: 38 part(s) without an LCSC C-number skipped: [C1 C2 C3 C4 C5 C6 C7 C8 C9 C10 C11 C12 C13 C14 D1 D2 D3 J1 
+J2 J3 J4 J5 J6 JP1 JP2 JP3 R1 R2 R3 R4 R5 R6 R7 SW1 U1 U2 U3 Y1]
+⚠ staleRisk: PCB was mutated by pcb.component.attrs_backfill since the last reload — pcb.documents.list (and DRC) may r
+ead stale engine state; run `easyeda doc reload` first (SKILL 铁律 5)
+⚠ staleRisk: PCB was mutated by pcb.component.attrs_backfill since the last reload — pcb.components.list (and DRC) may 
+read stale engine state; run `easyeda doc reload` first (SKILL 铁律 5)

@@ -1,0 +1,25 @@
+{
+ "version": 1,
+ "meta": {
+  "name": "test1-pcb-silk",
+  "description": "PCB 丝印：调试口/串口/CAN 端子逐脚标注 + 板名 + 终端电阻标识",
+  "project": "yingjian1",
+  "doc": "PCB1"
+ },
+ "defaults": { "timeoutSec": 30, "retry": 1 },
+ "steps": [
+  { "id": "s-j2-1", "run": "pcb silk-add", "flags": { "text": "3V3", "x": 330, "y": 640, "layer": 3, "font-size": 30, "line-width": 6 } },
+  { "id": "s-j2-2", "run": "pcb silk-add", "flags": { "text": "DIO", "x": 430, "y": 640, "layer": 3, "font-size": 30, "line-width": 6 } },
+  { "id": "s-j2-3", "run": "pcb silk-add", "flags": { "text": "CLK", "x": 530, "y": 640, "layer": 3, "font-size": 30, "line-width": 6 } },
+  { "id": "s-j2-4", "run": "pcb silk-add", "flags": { "text": "GND", "x": 630, "y": 640, "layer": 3, "font-size": 30, "line-width": 6 } },
+  { "id": "s-j3-1", "run": "pcb silk-add", "flags": { "text": "5V", "x": 1065, "y": 640, "layer": 3, "font-size": 30, "line-width": 6 } },
+  { "id": "s-j3-2", "run": "pcb silk-add", "flags": { "text": "GND", "x": 1160, "y": 640, "layer": 3, "font-size": 30, "line-width": 6 } },
+  { "id": "s-j3-3", "run": "pcb silk-add", "flags": { "text": "TX", "x": 1265, "y": 640, "layer": 3, "font-size": 30, "line-width": 6 } },
+  { "id": "s-j3-4", "run": "pcb silk-add", "flags": { "text": "RX", "x": 1365, "y": 640, "layer": 3, "font-size": 30, "line-width": 6 } },
+  { "id": "s-j4-1", "run": "pcb silk-add", "flags": { "text": "CANH", "x": 1880, "y": 305, "layer": 3, "font-size": 30, "line-width": 6 } },
+  { "id": "s-j4-2", "run": "pcb silk-add", "flags": { "text": "CANL", "x": 1880, "y": 443, "layer": 3, "font-size": 30, "line-width": 6 } },
+  { "id": "s-j4-3", "run": "pcb silk-add", "flags": { "text": "GND", "x": 1880, "y": 580, "layer": 3, "font-size": 30, "line-width": 6 } },
+  { "id": "s-jp2", "run": "pcb silk-add", "flags": { "text": "120R", "x": 1750, "y": 480, "layer": 3, "font-size": 30, "line-width": 6 } },
+  { "id": "s-title", "run": "pcb silk-add", "flags": { "text": "STM32F103C8T6-MinSys V1.0", "x": 400, "y": 560, "layer": 4, "font-size": 40, "line-width": 6 } }
+ ]
+}

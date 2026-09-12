@@ -1,0 +1,39 @@
+# ---- easyeda-agent 工具链与运行态（不属于作品交付物）----
+/easyeda-agent/
+/.easyeda/
+/.dsh/
+npm-cache/
+
+# ---- 本次 PCB/固件工具链（不属于作品交付物）----
+/stm32-openocd/
+
+# ---- EasyEDA 自动备份（体积大且可再生成）----
+yingjian1/yingjian1_backup/
+
+# ---- 原理图/PCB 工具运行中间产物（脚本可重跑）----
+yingjian1/eda/*.log
+yingjian1/eda/*.journal.jsonl
+yingjian1/eda/page1.json
+yingjian1/eda/netplan.json
+yingjian1/eda/netresult.json
+yingjian1/eda/netfix.json
+yingjian1/eda/check.json
+yingjian1/eda/gate.json
+yingjian1/eda/gate.txt
+yingjian1/eda/bridge.json
+yingjian1/eda/tb.json
+yingjian1/eda/tb2.json
+yingjian1/eda/tb3.json
+yingjian1/eda/destag*.txt
+yingjian1/eda/pins.txt
+yingjian1/eda/nets.txt
+yingjian1/eda/layout-plan.json
+yingjian1/eda/*.epro2
+
+# ---- 通用构建产物 ----
+build/
+*.o
+*.elf
+*.bin
+*.hex
+*.map

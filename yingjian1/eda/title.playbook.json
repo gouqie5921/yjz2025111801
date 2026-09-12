@@ -1,0 +1,19 @@
+{
+ "version": 1,
+ "meta": {
+  "name": "test1-titleblock",
+  "description": "填写图纸明细表（图签）：板名/版本/说明/日期",
+  "project": "yingjian1",
+  "doc": "P1"
+ },
+ "defaults": { "timeoutSec": 60, "retry": 1 },
+ "steps": [
+  {
+   "id": "titleblock",
+   "run": "sch titleblock",
+   "flags": {
+    "data": "{\"Name\":{\"value\":\"F103C8T6 最小系统板\"},\"Version\":{\"value\":\"V1.0\"},\"Part Number\":{\"value\":\"TEST1-MINSYS\"},\"Description\":{\"value\":\"STM32F103C8T6 minimum system board with CAN extension\"},\"Drawed\":{\"value\":\"yjz2025111801\"}}"
+   }
+  }
+ ]
+}

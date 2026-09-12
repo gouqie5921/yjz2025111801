@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "meta": {
+  "name": "test1-pcb-boardsetup",
+  "description": "第一题最小系统板 PCB：板框 53.3x22.9mm（蓝丸同尺寸）+ 两层叠层 + 回流焊装配档",
+  "project": "yingjian1",
+  "doc": "PCB1"
+ },
+ "defaults": { "timeoutSec": 60, "retry": 1 },
+ "steps": [
+  {
+   "id": "outline",
+   "run": "pcb outline-set",
+   "name": "板框 2098 x 902 mil = 53.3 x 22.9 mm",
+   "flags": { "points": "[[0,0],[2098,0],[2098,902],[0,902]]" }
+  },
+  {
+   "id": "stackup",
+   "run": "pcb stackup",
+   "name": "两层板",
+   "flags": { "layers": "2" }
+  },
+  {
+   "id": "assembly",
+   "run": "pcb stage set-assembly",
+   "name": "装配档：回流焊",
+   "flags": { "profile": "reflow" }
+  }
+ ]
+}
